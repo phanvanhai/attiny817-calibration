@@ -7,16 +7,10 @@ int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
-	NOP();
-	NOP();
-	NOP();
-	NOP();
-	NOP();
+	_delay_ms(1);
+	_NOP();
 	CalibInternalRc();
-	NOP();
-	NOP();
-	NOP();
-	NOP();
+	_NOP();
 	/* Replace with your application code */
 	while (1) {
 	}

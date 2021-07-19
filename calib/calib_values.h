@@ -26,13 +26,7 @@
 #define __CALIB_VALUES_H__
 
 #include "Config/clock_config.h"
-/*! \brief User defined values.
- *
- * The following values such as calibration method, calibration frequency,
- * external watch crystal frequency, and external ticks, can be modified by the user
- * to improve accuracy or change desired calibration frequency
- *
- */
+#include <util/delay.h>
 
 /*! Calibration methods, Binary search WITH Neighborsearch is default method
  * Uncomment to use ONE of the two following methods instead:
@@ -42,6 +36,8 @@
 
 /*! Modify CALIBRATION_FREQUENCY to desired calibration frequency
  */
+
+#include "Config/clock_config.h"
 #define CALIBRATION_FREQUENCY F_CPU
 
 /*! Frequency of the external oscillator. A 32kHz crystal is recommended
@@ -69,29 +65,36 @@
 #define INITIAL_STEP         (1 << (OSCCAL_RESOLUTION - 2))
 #define DEFAULT_OSCCAL      ((1 << (OSCCAL_RESOLUTION - 1)) | DEFAULT_OSCCAL_MASK)
 
-// For ATmega64 and ATmega128, 8 nop instructions must be run after a
-// change in OSCCAL to ensure stability (See errata in datasheet).
-// For all other devices, one nop instruction should be run to let
-// the RC oscillator stabilize.
-// The NOP() macro takes care of this.
-#if defined(__AT90Mega64__) | defined(__ATmega64__) | \
-    defined(__AT90Mega128__) | defined(__ATmega128__)
+#define NOP() _delay(CALIBRATION_FREQUENCY/10000000)
+//#define NOP() _NOP()
 
-#define NOP() \
-__no_operation(); \
-__no_operation(); \
-__no_operation(); \
-__no_operation(); \
-__no_operation(); \
-__no_operation(); \
-__no_operation(); \
-__no_operation();
-
-
-#else
-//#define NOP() __no_operation()
-#define NOP() _NOP()
-#endif
+/*
+#define NOP() _NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP();\
+_NOP()
+*/
 
 // Absolute value macro.
 #define ABS(var) (((var) < 0) ? -(var) : (var));

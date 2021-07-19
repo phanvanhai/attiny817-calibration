@@ -3,31 +3,31 @@ calib.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000002  00803e00  000002a6  0000033a  2**0
+  0 .data         00000002  00803e00  0000029c  00000330  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000002a6  00000000  00000000  00000094  2**1
+  1 .text         0000029c  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000000a  00803e02  00803e02  0000033c  2**0
+  2 .bss          0000000a  00803e02  00803e02  00000332  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000033c  2**0
+  3 .comment      00000030  00000000  00000000  00000332  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000036c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000364  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000198  00000000  00000000  000003a8  2**3
+  5 .debug_aranges 000001a0  00000000  00000000  000003a0  2**3
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00002b60  00000000  00000000  00000540  2**0
+  6 .debug_info   00002c0c  00000000  00000000  00000540  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00001c73  00000000  00000000  000030a0  2**0
+  7 .debug_abbrev 00001ce8  00000000  00000000  0000314c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000c84  00000000  00000000  00004d13  2**0
+  8 .debug_line   00000d3d  00000000  00000000  00004e34  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001bc  00000000  00000000  00005998  2**2
+  9 .debug_frame  000001cc  00000000  00000000  00005b74  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000012a4  00000000  00000000  00005b54  2**0
+ 10 .debug_str    0000133d  00000000  00000000  00005d40  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000001d9  00000000  00000000  00006df8  2**0
+ 11 .debug_loc    00000253  00000000  00000000  0000707d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c8  00000000  00000000  00006fd1  2**0
+ 12 .debug_ranges 000000d0  00000000  00000000  000072d0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,7 +72,7 @@ Disassembly of section .text:
   40:	1e e3       	ldi	r17, 0x3E	; 62
   42:	a0 e0       	ldi	r26, 0x00	; 0
   44:	be e3       	ldi	r27, 0x3E	; 62
-  46:	e6 ea       	ldi	r30, 0xA6	; 166
+  46:	ec e9       	ldi	r30, 0x9C	; 156
   48:	f2 e0       	ldi	r31, 0x02	; 2
   4a:	02 c0       	rjmp	.+4      	; 0x50 <__do_copy_data+0x10>
   4c:	05 90       	lpm	r0, Z+
@@ -94,20 +94,14 @@ Disassembly of section .text:
   60:	ac 30       	cpi	r26, 0x0C	; 12
   62:	b2 07       	cpc	r27, r18
   64:	e1 f7       	brne	.-8      	; 0x5e <.do_clear_bss_loop>
-  66:	bd d0       	rcall	.+378    	; 0x1e2 <main>
-  68:	1c c1       	rjmp	.+568    	; 0x2a2 <_exit>
+  66:	b9 d0       	rcall	.+370    	; 0x1da <main>
+  68:	17 c1       	rjmp	.+558    	; 0x298 <_exit>
 
 0000006a <__bad_interrupt>:
   6a:	ca cf       	rjmp	.-108    	; 0x0 <__vectors>
 
 0000006c <atmel_start_init>:
-/**
- * Initializes MCU, drivers and middleware in the project
- **/
-void atmel_start_init(void)
-{
-	system_init();
-  6c:	fb d0       	rcall	.+502    	; 0x264 <system_init>
+  6c:	f6 d0       	rcall	.+492    	; 0x25a <system_init>
   6e:	08 95       	ret
 
 00000070 <CalibrationInit>:
@@ -125,513 +119,396 @@ void CalibrationInit(void){
   7c:	60 ee       	ldi	r22, 0xE0	; 224
   7e:	81 e7       	ldi	r24, 0x71	; 113
   80:	90 e0       	ldi	r25, 0x00	; 0
-  82:	09 d1       	rcall	.+530    	; 0x296 <ccp_write_io>
-  NOP();
-  84:	00 00       	nop
-  86:	08 95       	ret
+  82:	04 d1       	rcall	.+520    	; 0x28c <ccp_write_io>
+  84:	08 95       	ret
 
-00000088 <Counter>:
+00000086 <Counter>:
 */
 unsigned int Counter(void){
   unsigned int cnt;
 
   cnt = 0;                                                      // Reset counter
-  TIMER_COUNT = 0x00;                                                 // Reset async timer/counter
-  88:	10 92 48 01 	sts	0x0148, r1	; 0x800148 <__RODATA_PM_OFFSET__+0x7f8148>
-  8c:	10 92 49 01 	sts	0x0149, r1	; 0x800149 <__RODATA_PM_OFFSET__+0x7f8149>
+  TIMER_COUNT = 0x00;                                           // Reset async timer/counter
+  86:	10 92 48 01 	sts	0x0148, r1	; 0x800148 <__RODATA_PM_OFFSET__+0x7f8148>
+  8a:	10 92 49 01 	sts	0x0149, r1	; 0x800149 <__RODATA_PM_OFFSET__+0x7f8149>
   while (STATUS_TIMER_REGISTER > 0); // Wait until async timer is updated  (Async Status reg. busy flags).
-  90:	80 91 41 01 	lds	r24, 0x0141	; 0x800141 <__RODATA_PM_OFFSET__+0x7f8141>
-  94:	81 11       	cpse	r24, r1
-  96:	fc cf       	rjmp	.-8      	; 0x90 <Counter+0x8>
-  98:	80 e0       	ldi	r24, 0x00	; 0
-  9a:	90 e0       	ldi	r25, 0x00	; 0
+  8e:	80 91 41 01 	lds	r24, 0x0141	; 0x800141 <__RODATA_PM_OFFSET__+0x7f8141>
+  92:	81 11       	cpse	r24, r1
+  94:	fc cf       	rjmp	.-8      	; 0x8e <Counter+0x8>
+  96:	80 e0       	ldi	r24, 0x00	; 0
+  98:	90 e0       	ldi	r25, 0x00	; 0
   do{                                                           // cnt++: Increment counter - the add immediate to word (ADIW) takes 2 cycles of code.
     cnt++;                                                      // Devices with async TCNT in I/0 space use 1 cycle reading, 2 for devices with async TCNT in extended I/O space
-  9c:	01 96       	adiw	r24, 0x01	; 1
+  9a:	01 96       	adiw	r24, 0x01	; 1
   } while (TIMER_COUNT < EXTERNAL_TICKS);                             // CPI takes 1 cycle, BRCS takes 2 cycles, resulting in: 2+1(or 2)+1+2=6(or 7) CPU cycles
-  9e:	20 91 48 01 	lds	r18, 0x0148	; 0x800148 <__RODATA_PM_OFFSET__+0x7f8148>
-  a2:	30 91 49 01 	lds	r19, 0x0149	; 0x800149 <__RODATA_PM_OFFSET__+0x7f8149>
-  a6:	24 36       	cpi	r18, 0x64	; 100
-  a8:	31 05       	cpc	r19, r1
-  aa:	c0 f3       	brcs	.-16     	; 0x9c <Counter+0x14>
+  9c:	20 91 48 01 	lds	r18, 0x0148	; 0x800148 <__RODATA_PM_OFFSET__+0x7f8148>
+  a0:	30 91 49 01 	lds	r19, 0x0149	; 0x800149 <__RODATA_PM_OFFSET__+0x7f8149>
+  a4:	24 36       	cpi	r18, 0x64	; 100
+  a6:	31 05       	cpc	r19, r1
+  a8:	c0 f3       	brcs	.-16     	; 0x9a <Counter+0x14>
   return cnt;                                                   // NB! Different compilers may give different CPU cycles!
 }                                                               // Until 32.7KHz (XTAL FREQUENCY) * EXTERNAL TICKS
-  ac:	08 95       	ret
+  aa:	08 95       	ret
 
-000000ae <BinarySearch>:
+000000ac <BinarySearch>:
 * correct OSSCAL value.
 *
 */
 void BinarySearch(unsigned int ct){
 
   if (ct > countVal)                                            // Check if count is larger than desired value
-  ae:	20 91 05 3e 	lds	r18, 0x3E05	; 0x803e05 <countVal>
-  b2:	30 91 06 3e 	lds	r19, 0x3E06	; 0x803e06 <countVal+0x1>
-  b6:	28 17       	cp	r18, r24
-  b8:	39 07       	cpc	r19, r25
-  ba:	68 f4       	brcc	.+26     	; 0xd6 <BinarySearch+0x28>
+  ac:	20 91 05 3e 	lds	r18, 0x3E05	; 0x803e05 <countVal>
+  b0:	30 91 06 3e 	lds	r19, 0x3E06	; 0x803e06 <countVal+0x1>
+  b4:	28 17       	cp	r18, r24
+  b6:	39 07       	cpc	r19, r25
+  b8:	60 f4       	brcc	.+24     	; 0xd2 <BinarySearch+0x26>
   {
     sign = -1;                                                  // Saves the direction
-  bc:	8f ef       	ldi	r24, 0xFF	; 255
-  be:	80 93 02 3e 	sts	0x3E02, r24	; 0x803e02 <__data_end>
+  ba:	8f ef       	ldi	r24, 0xFF	; 255
+  bc:	80 93 02 3e 	sts	0x3E02, r24	; 0x803e02 <__data_end>
     ccp_write_io((void*)&(OSCCALR),OSCCALR - calStep);                                      // Decrease OSCCALR if count is too high
-  c2:	60 91 71 00 	lds	r22, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
-  c6:	80 91 03 3e 	lds	r24, 0x3E03	; 0x803e03 <calStep>
-  ca:	68 1b       	sub	r22, r24
-  cc:	81 e7       	ldi	r24, 0x71	; 113
-  ce:	90 e0       	ldi	r25, 0x00	; 0
-  d0:	e2 d0       	rcall	.+452    	; 0x296 <ccp_write_io>
+  c0:	60 91 71 00 	lds	r22, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
+  c4:	80 91 03 3e 	lds	r24, 0x3E03	; 0x803e03 <calStep>
+  c8:	68 1b       	sub	r22, r24
+  ca:	81 e7       	ldi	r24, 0x71	; 113
+  cc:	90 e0       	ldi	r25, 0x00	; 0
+  ce:	de d0       	rcall	.+444    	; 0x28c <ccp_write_io>
+  d0:	15 c0       	rjmp	.+42     	; 0xfc <BinarySearch+0x50>
     NOP();
-  d2:	00 00       	nop
-  d4:	16 c0       	rjmp	.+44     	; 0x102 <BinarySearch+0x54>
   }
   else if (ct < countVal)                                       // Opposite procedure for lower value
-  d6:	82 17       	cp	r24, r18
-  d8:	93 07       	cpc	r25, r19
-  da:	68 f4       	brcc	.+26     	; 0xf6 <BinarySearch+0x48>
+  d2:	82 17       	cp	r24, r18
+  d4:	93 07       	cpc	r25, r19
+  d6:	60 f4       	brcc	.+24     	; 0xf0 <BinarySearch+0x44>
   {
     sign = 1;
-  dc:	81 e0       	ldi	r24, 0x01	; 1
-  de:	80 93 02 3e 	sts	0x3E02, r24	; 0x803e02 <__data_end>
+  d8:	81 e0       	ldi	r24, 0x01	; 1
+  da:	80 93 02 3e 	sts	0x3E02, r24	; 0x803e02 <__data_end>
     ccp_write_io((void*)&(OSCCALR),OSCCALR + calStep);
-  e2:	60 91 71 00 	lds	r22, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
-  e6:	80 91 03 3e 	lds	r24, 0x3E03	; 0x803e03 <calStep>
-  ea:	68 0f       	add	r22, r24
-  ec:	81 e7       	ldi	r24, 0x71	; 113
-  ee:	90 e0       	ldi	r25, 0x00	; 0
-  f0:	d2 d0       	rcall	.+420    	; 0x296 <ccp_write_io>
+  de:	60 91 71 00 	lds	r22, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
+  e2:	80 91 03 3e 	lds	r24, 0x3E03	; 0x803e03 <calStep>
+  e6:	68 0f       	add	r22, r24
+  e8:	81 e7       	ldi	r24, 0x71	; 113
+  ea:	90 e0       	ldi	r25, 0x00	; 0
+  ec:	cf d0       	rcall	.+414    	; 0x28c <ccp_write_io>
+  ee:	06 c0       	rjmp	.+12     	; 0xfc <BinarySearch+0x50>
     NOP();
-  f2:	00 00       	nop
-  f4:	06 c0       	rjmp	.+12     	; 0x102 <BinarySearch+0x54>
   }
   else                                                          // Perfect match, OSCCALR stays unchanged
   {
     calibration = FINISHED;
-  f6:	81 e0       	ldi	r24, 0x01	; 1
-  f8:	90 e0       	ldi	r25, 0x00	; 0
-  fa:	80 93 07 3e 	sts	0x3E07, r24	; 0x803e07 <calibration>
-  fe:	90 93 08 3e 	sts	0x3E08, r25	; 0x803e08 <calibration+0x1>
+  f0:	81 e0       	ldi	r24, 0x01	; 1
+  f2:	90 e0       	ldi	r25, 0x00	; 0
+  f4:	80 93 07 3e 	sts	0x3E07, r24	; 0x803e07 <calibration>
+  f8:	90 93 08 3e 	sts	0x3E08, r25	; 0x803e08 <calibration+0x1>
   }
   calStep >>= 1;
- 102:	80 91 03 3e 	lds	r24, 0x3E03	; 0x803e03 <calStep>
- 106:	86 95       	lsr	r24
- 108:	80 93 03 3e 	sts	0x3E03, r24	; 0x803e03 <calStep>
- 10c:	08 95       	ret
+  fc:	80 91 03 3e 	lds	r24, 0x3E03	; 0x803e03 <calStep>
+ 100:	86 95       	lsr	r24
+ 102:	80 93 03 3e 	sts	0x3E03, r24	; 0x803e03 <calStep>
+ 106:	08 95       	ret
 
-0000010e <NeighborSearch>:
+00000108 <NeighborSearch>:
 * prior to it.
 *
 */
 void NeighborSearch(void){
 
   neighborsSearched++;
- 10e:	80 91 09 3e 	lds	r24, 0x3E09	; 0x803e09 <neighborsSearched>
- 112:	8f 5f       	subi	r24, 0xFF	; 255
- 114:	80 93 09 3e 	sts	0x3E09, r24	; 0x803e09 <neighborsSearched>
+ 108:	80 91 09 3e 	lds	r24, 0x3E09	; 0x803e09 <neighborsSearched>
+ 10c:	8f 5f       	subi	r24, 0xFF	; 255
+ 10e:	80 93 09 3e 	sts	0x3E09, r24	; 0x803e09 <neighborsSearched>
   if (neighborsSearched == 4)                                   // Finish if 3 neighbors searched
- 118:	84 30       	cpi	r24, 0x04	; 4
- 11a:	61 f4       	brne	.+24     	; 0x134 <NeighborSearch+0x26>
+ 112:	84 30       	cpi	r24, 0x04	; 4
+ 114:	61 f4       	brne	.+24     	; 0x12e <NeighborSearch+0x26>
   {
-	 ccp_write_io((void*)&(OSCCALR), bestOSCCAL);
- 11c:	60 91 0b 3e 	lds	r22, 0x3E0B	; 0x803e0b <bestOSCCAL>
- 120:	81 e7       	ldi	r24, 0x71	; 113
+	ccp_write_io((void*)&(OSCCALR), bestOSCCAL);
+ 116:	60 91 0b 3e 	lds	r22, 0x3E0B	; 0x803e0b <bestOSCCAL>
+ 11a:	81 e7       	ldi	r24, 0x71	; 113
+ 11c:	90 e0       	ldi	r25, 0x00	; 0
+ 11e:	b6 d0       	rcall	.+364    	; 0x28c <ccp_write_io>
+	//NOP();
+	calibration = FINISHED;
+ 120:	81 e0       	ldi	r24, 0x01	; 1
  122:	90 e0       	ldi	r25, 0x00	; 0
- 124:	b8 d0       	rcall	.+368    	; 0x296 <ccp_write_io>
-    calibration = FINISHED;
- 126:	81 e0       	ldi	r24, 0x01	; 1
- 128:	90 e0       	ldi	r25, 0x00	; 0
- 12a:	80 93 07 3e 	sts	0x3E07, r24	; 0x803e07 <calibration>
- 12e:	90 93 08 3e 	sts	0x3E08, r25	; 0x803e08 <calibration+0x1>
- 132:	08 95       	ret
+ 124:	80 93 07 3e 	sts	0x3E07, r24	; 0x803e07 <calibration>
+ 128:	90 93 08 3e 	sts	0x3E08, r25	; 0x803e08 <calibration+0x1>
+ 12c:	08 95       	ret
   }
   else
   {
 	ccp_write_io((void*)&(OSCCALR),OSCCALR + sign);
- 134:	60 91 71 00 	lds	r22, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
- 138:	80 91 02 3e 	lds	r24, 0x3E02	; 0x803e02 <__data_end>
- 13c:	68 0f       	add	r22, r24
- 13e:	81 e7       	ldi	r24, 0x71	; 113
- 140:	90 e0       	ldi	r25, 0x00	; 0
- 142:	a9 d0       	rcall	.+338    	; 0x296 <ccp_write_io>
-    NOP();
- 144:	00 00       	nop
- 146:	08 95       	ret
+ 12e:	60 91 71 00 	lds	r22, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
+ 132:	80 91 02 3e 	lds	r24, 0x3E02	; 0x803e02 <__data_end>
+ 136:	68 0f       	add	r22, r24
+ 138:	81 e7       	ldi	r24, 0x71	; 113
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	a7 d0       	rcall	.+334    	; 0x28c <ccp_write_io>
+ 13e:	08 95       	ret
 
-00000148 <CalibrateInternalRc>:
+00000140 <CalibrateInternalRc>:
 *
 * Performs the calibration according to calibration method chosen.
 * Compares different calibration results in order to achieve optimal results.
 *
 */
 void CalibrateInternalRc(void){
- 148:	cf 93       	push	r28
-      cycles=1;			
-  } while(--cycles);                                            // Calibrate using 32(0x20) calibration cycles
+ 140:	cf 93       	push	r28
+    if (count == countVal) cycles = 1;			
+  } while(--cycles);                                            // Calibrate using 32 (0x20) calibration cycles
 
 #else                                                           // Binary search with or without neighbor search
   unsigned char countDiff;
   unsigned char neighborSearchStatus = FINISHED;
- 14a:	c1 e0       	ldi	r28, 0x01	; 1
+ 142:	c1 e0       	ldi	r28, 0x01	; 1
 
   while(calibration == RUNNING){
- 14c:	36 c0       	rjmp	.+108    	; 0x1ba <CalibrateInternalRc+0x72>
+ 144:	36 c0       	rjmp	.+108    	; 0x1b2 <CalibrateInternalRc+0x72>
     count = Counter();                                          // Counter returns the count value after external ticks on XTAL
- 14e:	9c df       	rcall	.-200    	; 0x88 <Counter>
+ 146:	9f df       	rcall	.-194    	; 0x86 <Counter>
     if (calStep != 0)
- 150:	20 91 03 3e 	lds	r18, 0x3E03	; 0x803e03 <calStep>
- 154:	22 23       	and	r18, r18
- 156:	11 f0       	breq	.+4      	; 0x15c <CalibrateInternalRc+0x14>
+ 148:	20 91 03 3e 	lds	r18, 0x3E03	; 0x803e03 <calStep>
+ 14c:	22 23       	and	r18, r18
+ 14e:	11 f0       	breq	.+4      	; 0x154 <CalibrateInternalRc+0x14>
     {
       BinarySearch(count);                                      // Do binary search until stepsize is zero
- 158:	aa df       	rcall	.-172    	; 0xae <BinarySearch>
- 15a:	2f c0       	rjmp	.+94     	; 0x1ba <CalibrateInternalRc+0x72>
+ 150:	ad df       	rcall	.-166    	; 0xac <BinarySearch>
+ 152:	2f c0       	rjmp	.+94     	; 0x1b2 <CalibrateInternalRc+0x72>
     }
     else
     {
       if(neighborSearchStatus == RUNNING)
- 15c:	c1 11       	cpse	r28, r1
- 15e:	18 c0       	rjmp	.+48     	; 0x190 <CalibrateInternalRc+0x48>
+ 154:	c1 11       	cpse	r28, r1
+ 156:	18 c0       	rjmp	.+48     	; 0x188 <CalibrateInternalRc+0x48>
       {
         countDiff = ABS((signed int)count-(signed int)countVal);
- 160:	20 91 05 3e 	lds	r18, 0x3E05	; 0x803e05 <countVal>
- 164:	30 91 06 3e 	lds	r19, 0x3E06	; 0x803e06 <countVal+0x1>
- 168:	82 1b       	sub	r24, r18
- 16a:	93 0b       	sbc	r25, r19
- 16c:	9c 01       	movw	r18, r24
- 16e:	22 f4       	brpl	.+8      	; 0x178 <CalibrateInternalRc+0x30>
- 170:	22 27       	eor	r18, r18
- 172:	33 27       	eor	r19, r19
- 174:	28 1b       	sub	r18, r24
- 176:	39 0b       	sbc	r19, r25
+ 158:	20 91 05 3e 	lds	r18, 0x3E05	; 0x803e05 <countVal>
+ 15c:	30 91 06 3e 	lds	r19, 0x3E06	; 0x803e06 <countVal+0x1>
+ 160:	82 1b       	sub	r24, r18
+ 162:	93 0b       	sbc	r25, r19
+ 164:	9c 01       	movw	r18, r24
+ 166:	22 f4       	brpl	.+8      	; 0x170 <CalibrateInternalRc+0x30>
+ 168:	22 27       	eor	r18, r18
+ 16a:	33 27       	eor	r19, r19
+ 16c:	28 1b       	sub	r18, r24
+ 16e:	39 0b       	sbc	r19, r25
         if (countDiff < bestCountDiff)                          // Store OSCCALR if higher accuracy is achieved
- 178:	80 91 00 3e 	lds	r24, 0x3E00	; 0x803e00 <__data_start>
- 17c:	28 17       	cp	r18, r24
- 17e:	30 f4       	brcc	.+12     	; 0x18c <CalibrateInternalRc+0x44>
+ 170:	80 91 00 3e 	lds	r24, 0x3E00	; 0x803e00 <__DATA_REGION_ORIGIN__>
+ 174:	28 17       	cp	r18, r24
+ 176:	30 f4       	brcc	.+12     	; 0x184 <CalibrateInternalRc+0x44>
         {
           bestCountDiff = countDiff;
- 180:	20 93 00 3e 	sts	0x3E00, r18	; 0x803e00 <__data_start>
+ 178:	20 93 00 3e 	sts	0x3E00, r18	; 0x803e00 <__DATA_REGION_ORIGIN__>
           bestOSCCAL = OSCCALR;
- 184:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
- 188:	80 93 0b 3e 	sts	0x3E0B, r24	; 0x803e0b <bestOSCCAL>
+ 17c:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
+ 180:	80 93 0b 3e 	sts	0x3E0B, r24	; 0x803e0b <bestOSCCAL>
         }
         NeighborSearch();                                       // Do neighbor search
- 18c:	c0 df       	rcall	.-128    	; 0x10e <NeighborSearch>
- 18e:	15 c0       	rjmp	.+42     	; 0x1ba <CalibrateInternalRc+0x72>
+ 184:	c1 df       	rcall	.-126    	; 0x108 <NeighborSearch>
+ 186:	15 c0       	rjmp	.+42     	; 0x1b2 <CalibrateInternalRc+0x72>
         countDiff = ABS((signed int)count-(signed int)countVal);
         bestCountDiff = countDiff;
         bestOSCCAL = OSCCALR;
 #else
         neighborSearchStatus = RUNNING;                         // Do neighbor search by default
         neighborsSearched = 0;
- 190:	10 92 09 3e 	sts	0x3E09, r1	; 0x803e09 <neighborsSearched>
+ 188:	10 92 09 3e 	sts	0x3E09, r1	; 0x803e09 <neighborsSearched>
         countDiff = ABS((signed int)count-(signed int)countVal);
- 194:	20 91 05 3e 	lds	r18, 0x3E05	; 0x803e05 <countVal>
- 198:	30 91 06 3e 	lds	r19, 0x3E06	; 0x803e06 <countVal+0x1>
- 19c:	82 1b       	sub	r24, r18
- 19e:	93 0b       	sbc	r25, r19
- 1a0:	9c 01       	movw	r18, r24
- 1a2:	22 f4       	brpl	.+8      	; 0x1ac <CalibrateInternalRc+0x64>
- 1a4:	22 27       	eor	r18, r18
- 1a6:	33 27       	eor	r19, r19
- 1a8:	28 1b       	sub	r18, r24
- 1aa:	39 0b       	sbc	r19, r25
+ 18c:	20 91 05 3e 	lds	r18, 0x3E05	; 0x803e05 <countVal>
+ 190:	30 91 06 3e 	lds	r19, 0x3E06	; 0x803e06 <countVal+0x1>
+ 194:	82 1b       	sub	r24, r18
+ 196:	93 0b       	sbc	r25, r19
+ 198:	9c 01       	movw	r18, r24
+ 19a:	22 f4       	brpl	.+8      	; 0x1a4 <CalibrateInternalRc+0x64>
+ 19c:	22 27       	eor	r18, r18
+ 19e:	33 27       	eor	r19, r19
+ 1a0:	28 1b       	sub	r18, r24
+ 1a2:	39 0b       	sbc	r19, r25
         bestCountDiff = countDiff;
- 1ac:	20 93 00 3e 	sts	0x3E00, r18	; 0x803e00 <__data_start>
+ 1a4:	20 93 00 3e 	sts	0x3E00, r18	; 0x803e00 <__DATA_REGION_ORIGIN__>
         bestOSCCAL = OSCCALR;
- 1b0:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
- 1b4:	80 93 0b 3e 	sts	0x3E0B, r24	; 0x803e0b <bestOSCCAL>
+ 1a8:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
+ 1ac:	80 93 0b 3e 	sts	0x3E0B, r24	; 0x803e0b <bestOSCCAL>
         calibration = FINISHED;
         countDiff = ABS((signed int)count-(signed int)countVal);
         bestCountDiff = countDiff;
         bestOSCCAL = OSCCALR;
 #else
         neighborSearchStatus = RUNNING;                         // Do neighbor search by default
- 1b8:	c0 e0       	ldi	r28, 0x00	; 0
+ 1b0:	c0 e0       	ldi	r28, 0x00	; 0
 
 #else                                                           // Binary search with or without neighbor search
   unsigned char countDiff;
   unsigned char neighborSearchStatus = FINISHED;
 
   while(calibration == RUNNING){
- 1ba:	80 91 07 3e 	lds	r24, 0x3E07	; 0x803e07 <calibration>
- 1be:	90 91 08 3e 	lds	r25, 0x3E08	; 0x803e08 <calibration+0x1>
- 1c2:	89 2b       	or	r24, r25
- 1c4:	21 f2       	breq	.-120    	; 0x14e <CalibrateInternalRc+0x6>
+ 1b2:	80 91 07 3e 	lds	r24, 0x3E07	; 0x803e07 <calibration>
+ 1b6:	90 91 08 3e 	lds	r25, 0x3E08	; 0x803e08 <calibration+0x1>
+ 1ba:	89 2b       	or	r24, r25
+ 1bc:	21 f2       	breq	.-120    	; 0x146 <CalibrateInternalRc+0x6>
 #endif
       }
     }
   }
 #endif
 }
- 1c6:	cf 91       	pop	r28
- 1c8:	08 95       	ret
+ 1be:	cf 91       	pop	r28
+ 1c0:	08 95       	ret
 
-000001ca <CalibInternalRc>:
+000001c2 <CalibInternalRc>:
 * oscillator characteristics. Ends in an eternal loop.
 *
 */
 
 unsigned char CalibInternalRc(void){
 	CalibrationInit();                                            // Initiates calibration
- 1ca:	52 df       	rcall	.-348    	; 0x70 <CalibrationInit>
+ 1c2:	56 df       	rcall	.-340    	; 0x70 <CalibrationInit>
 	// Sets initial stepsize and sets calibration state to "running"
 	calStep = INITIAL_STEP;
- 1cc:	80 e1       	ldi	r24, 0x10	; 16
- 1ce:	80 93 03 3e 	sts	0x3E03, r24	; 0x803e03 <calStep>
+ 1c4:	80 e1       	ldi	r24, 0x10	; 16
+ 1c6:	80 93 03 3e 	sts	0x3E03, r24	; 0x803e03 <calStep>
 	calibration = RUNNING;
- 1d2:	10 92 07 3e 	sts	0x3E07, r1	; 0x803e07 <calibration>
- 1d6:	10 92 08 3e 	sts	0x3E08, r1	; 0x803e08 <calibration+0x1>
+ 1ca:	10 92 07 3e 	sts	0x3E07, r1	; 0x803e07 <calibration>
+ 1ce:	10 92 08 3e 	sts	0x3E08, r1	; 0x803e08 <calibration+0x1>
 	CalibrateInternalRc();                                        // Calibrates to selected frequency
- 1da:	b6 df       	rcall	.-148    	; 0x148 <CalibrateInternalRc>
+ 1d2:	b6 df       	rcall	.-148    	; 0x140 <CalibrateInternalRc>
   
 	return OSCCALR;  
- 1dc:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
+ 1d4:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <__RODATA_PM_OFFSET__+0x7f8071>
 }
- 1e0:	08 95       	ret
+ 1d8:	08 95       	ret
 
-000001e2 <main>:
+000001da <main>:
 #include <util/delay.h>
 
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
- 1e2:	44 df       	rcall	.-376    	; 0x6c <atmel_start_init>
-	...
-	NOP();
-	NOP();
-	NOP();
-	NOP();
-	NOP();
- 1ec:	00 00       	nop
+ 1da:	48 df       	rcall	.-368    	; 0x6c <atmel_start_init>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1dc:	81 ee       	ldi	r24, 0xE1	; 225
+ 1de:	94 e0       	ldi	r25, 0x04	; 4
+ 1e0:	01 97       	sbiw	r24, 0x01	; 1
+ 1e2:	f1 f7       	brne	.-4      	; 0x1e0 <main+0x6>
+ 1e4:	00 c0       	rjmp	.+0      	; 0x1e6 <main+0xc>
+ 1e6:	00 00       	nop
+	_delay_ms(1);
+	_NOP();
+ 1e8:	00 00       	nop
 	CalibInternalRc();
- 1ee:	ed df       	rcall	.-38     	; 0x1ca <CalibInternalRc>
-	...
-	NOP();
-	NOP();
-	NOP();
-	NOP();
- 1f8:	ff cf       	rjmp	.-2      	; 0x1f8 <main+0x16>
+ 1ea:	eb df       	rcall	.-42     	; 0x1c2 <CalibInternalRc>
+	_NOP();
+ 1ec:	00 00       	nop
+ 1ee:	ff cf       	rjmp	.-2      	; 0x1ee <main+0x14>
 
-000001fa <BOD_init>:
-	//		 | BOD_VLMCFG_BELOW_gc; /* Interrupt when supply goes below VLM level */
+000001f0 <BOD_init>:
+ 1f0:	80 e0       	ldi	r24, 0x00	; 0
+ 1f2:	08 95       	ret
 
-	// BOD.VLMCTRLA = BOD_VLMLVL_5ABOVE_gc; /* VLM threshold 5% above BOD level */
-
-	return 0;
-}
- 1fa:	80 e0       	ldi	r24, 0x00	; 0
- 1fc:	08 95       	ret
-
-000001fe <CLKCTRL_init>:
- *       on calling convention. The memory model is not visible to the
- *       preprocessor, so it must be defined in the Assembler preprocessor directives.
- */
-static inline void ccp_write_io(void *addr, uint8_t value)
-{
-	protected_write_io(addr, CCP_IOREG_gc, value);
- 1fe:	41 e0       	ldi	r20, 0x01	; 1
+000001f4 <CLKCTRL_init>:
+ 1f4:	41 e0       	ldi	r20, 0x01	; 1
+ 1f6:	68 ed       	ldi	r22, 0xD8	; 216
+ 1f8:	8c e7       	ldi	r24, 0x7C	; 124
+ 1fa:	90 e0       	ldi	r25, 0x00	; 0
+ 1fc:	35 d0       	rcall	.+106    	; 0x268 <protected_write_io>
+ 1fe:	43 e0       	ldi	r20, 0x03	; 3
  200:	68 ed       	ldi	r22, 0xD8	; 216
- 202:	8c e7       	ldi	r24, 0x7C	; 124
+ 202:	81 e6       	ldi	r24, 0x61	; 97
  204:	90 e0       	ldi	r25, 0x00	; 0
- 206:	35 d0       	rcall	.+106    	; 0x272 <protected_write_io>
- 208:	43 e0       	ldi	r20, 0x03	; 3
- 20a:	68 ed       	ldi	r22, 0xD8	; 216
- 20c:	81 e6       	ldi	r24, 0x61	; 97
- 20e:	90 e0       	ldi	r25, 0x00	; 0
- 210:	30 d0       	rcall	.+96     	; 0x272 <protected_write_io>
-	//		 | 0 << CLKCTRL_CLKOUT_bp /* System clock out: disabled */);
+ 206:	30 d0       	rcall	.+96     	; 0x268 <protected_write_io>
+ 208:	80 e0       	ldi	r24, 0x00	; 0
+ 20a:	08 95       	ret
 
-	// ccp_write_io((void*)&(CLKCTRL.MCLKLOCK),0 << CLKCTRL_LOCKEN_bp /* lock enable: disabled */);
+0000020c <CPUINT_init>:
+ 20c:	80 e0       	ldi	r24, 0x00	; 0
+ 20e:	08 95       	ret
 
-	return 0;
-}
- 212:	80 e0       	ldi	r24, 0x00	; 0
- 214:	08 95       	ret
+00000210 <mcu_init>:
+ 210:	80 e0       	ldi	r24, 0x00	; 0
+ 212:	08 c0       	rjmp	.+16     	; 0x224 <mcu_init+0x14>
+ 214:	e8 2f       	mov	r30, r24
+ 216:	f0 e0       	ldi	r31, 0x00	; 0
+ 218:	e0 5f       	subi	r30, 0xF0	; 240
+ 21a:	fb 4f       	sbci	r31, 0xFB	; 251
+ 21c:	90 81       	ld	r25, Z
+ 21e:	98 60       	ori	r25, 0x08	; 8
+ 220:	90 83       	st	Z, r25
+ 222:	8f 5f       	subi	r24, 0xFF	; 255
+ 224:	88 30       	cpi	r24, 0x08	; 8
+ 226:	b0 f3       	brcs	.-20     	; 0x214 <mcu_init+0x4>
+ 228:	80 e0       	ldi	r24, 0x00	; 0
+ 22a:	08 c0       	rjmp	.+16     	; 0x23c <mcu_init+0x2c>
+ 22c:	e8 2f       	mov	r30, r24
+ 22e:	f0 e0       	ldi	r31, 0x00	; 0
+ 230:	e0 5d       	subi	r30, 0xD0	; 208
+ 232:	fb 4f       	sbci	r31, 0xFB	; 251
+ 234:	90 81       	ld	r25, Z
+ 236:	98 60       	ori	r25, 0x08	; 8
+ 238:	90 83       	st	Z, r25
+ 23a:	8f 5f       	subi	r24, 0xFF	; 255
+ 23c:	88 30       	cpi	r24, 0x08	; 8
+ 23e:	b0 f3       	brcs	.-20     	; 0x22c <mcu_init+0x1c>
+ 240:	80 e0       	ldi	r24, 0x00	; 0
+ 242:	08 c0       	rjmp	.+16     	; 0x254 <mcu_init+0x44>
+ 244:	e8 2f       	mov	r30, r24
+ 246:	f0 e0       	ldi	r31, 0x00	; 0
+ 248:	e0 5b       	subi	r30, 0xB0	; 176
+ 24a:	fb 4f       	sbci	r31, 0xFB	; 251
+ 24c:	90 81       	ld	r25, Z
+ 24e:	98 60       	ori	r25, 0x08	; 8
+ 250:	90 83       	st	Z, r25
+ 252:	8f 5f       	subi	r24, 0xFF	; 255
+ 254:	88 30       	cpi	r24, 0x08	; 8
+ 256:	b0 f3       	brcs	.-20     	; 0x244 <mcu_init+0x34>
+ 258:	08 95       	ret
 
-00000216 <CPUINT_init>:
-	// CPUINT.LVL0PRI = 0x0 << CPUINT_LVL0PRI_gp; /* Interrupt Level Priority: 0x0 */
+0000025a <system_init>:
+ 25a:	da df       	rcall	.-76     	; 0x210 <mcu_init>
+ 25c:	cb df       	rcall	.-106    	; 0x1f4 <CLKCTRL_init>
+ 25e:	08 d0       	rcall	.+16     	; 0x270 <RTC_0_init>
+ 260:	d5 df       	rcall	.-86     	; 0x20c <CPUINT_init>
+ 262:	12 d0       	rcall	.+36     	; 0x288 <SLPCTRL_init>
+ 264:	c5 df       	rcall	.-118    	; 0x1f0 <BOD_init>
+ 266:	08 95       	ret
 
-	// CPUINT.LVL1VEC = 0x0 << CPUINT_LVL1VEC_gp; /* Interrupt Vector with High Priority: 0x0 */
+00000268 <protected_write_io>:
+ 268:	fc 01       	movw	r30, r24
+ 26a:	64 bf       	out	0x34, r22	; 52
+ 26c:	40 83       	st	Z, r20
+ 26e:	08 95       	ret
 
-	return 0;
-}
- 216:	80 e0       	ldi	r24, 0x00	; 0
- 218:	08 95       	ret
+00000270 <RTC_0_init>:
+ 270:	80 91 41 01 	lds	r24, 0x0141	; 0x800141 <__RODATA_PM_OFFSET__+0x7f8141>
+ 274:	81 11       	cpse	r24, r1
+ 276:	fc cf       	rjmp	.-8      	; 0x270 <RTC_0_init>
+ 278:	e0 e4       	ldi	r30, 0x40	; 64
+ 27a:	f1 e0       	ldi	r31, 0x01	; 1
+ 27c:	81 e0       	ldi	r24, 0x01	; 1
+ 27e:	80 83       	st	Z, r24
+ 280:	82 e0       	ldi	r24, 0x02	; 2
+ 282:	87 83       	std	Z+7, r24	; 0x07
+ 284:	80 e0       	ldi	r24, 0x00	; 0
+ 286:	08 95       	ret
 
-0000021a <mcu_init>:
-	 * disables all peripherals to save power. Driver shall enable
-	 * peripheral if used */
+00000288 <SLPCTRL_init>:
+ 288:	80 e0       	ldi	r24, 0x00	; 0
+ 28a:	08 95       	ret
 
-	/* Set all pins to low power mode */
+0000028c <ccp_write_io>:
+ 28c:	dc 01       	movw	r26, r24
+ 28e:	28 ed       	ldi	r18, 0xD8	; 216
+ 290:	20 93 34 00 	sts	0x0034, r18	; 0x800034 <__RODATA_PM_OFFSET__+0x7f8034>
+ 294:	6c 93       	st	X, r22
+ 296:	08 95       	ret
 
-	for (uint8_t i = 0; i < 8; i++) {
- 21a:	80 e0       	ldi	r24, 0x00	; 0
- 21c:	08 c0       	rjmp	.+16     	; 0x22e <mcu_init+0x14>
-		*((uint8_t *)&PORTA + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
- 21e:	e8 2f       	mov	r30, r24
- 220:	f0 e0       	ldi	r31, 0x00	; 0
- 222:	e0 5f       	subi	r30, 0xF0	; 240
- 224:	fb 4f       	sbci	r31, 0xFB	; 251
- 226:	90 81       	ld	r25, Z
- 228:	98 60       	ori	r25, 0x08	; 8
- 22a:	90 83       	st	Z, r25
-	 * disables all peripherals to save power. Driver shall enable
-	 * peripheral if used */
+00000298 <_exit>:
+ 298:	f8 94       	cli
 
-	/* Set all pins to low power mode */
-
-	for (uint8_t i = 0; i < 8; i++) {
- 22c:	8f 5f       	subi	r24, 0xFF	; 255
- 22e:	88 30       	cpi	r24, 0x08	; 8
- 230:	b0 f3       	brcs	.-20     	; 0x21e <mcu_init+0x4>
- 232:	80 e0       	ldi	r24, 0x00	; 0
- 234:	08 c0       	rjmp	.+16     	; 0x246 <mcu_init+0x2c>
-		*((uint8_t *)&PORTA + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-	}
-
-	for (uint8_t i = 0; i < 8; i++) {
-		*((uint8_t *)&PORTB + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
- 236:	e8 2f       	mov	r30, r24
- 238:	f0 e0       	ldi	r31, 0x00	; 0
- 23a:	e0 5d       	subi	r30, 0xD0	; 208
- 23c:	fb 4f       	sbci	r31, 0xFB	; 251
- 23e:	90 81       	ld	r25, Z
- 240:	98 60       	ori	r25, 0x08	; 8
- 242:	90 83       	st	Z, r25
-
-	for (uint8_t i = 0; i < 8; i++) {
-		*((uint8_t *)&PORTA + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-	}
-
-	for (uint8_t i = 0; i < 8; i++) {
- 244:	8f 5f       	subi	r24, 0xFF	; 255
- 246:	88 30       	cpi	r24, 0x08	; 8
- 248:	b0 f3       	brcs	.-20     	; 0x236 <mcu_init+0x1c>
- 24a:	80 e0       	ldi	r24, 0x00	; 0
- 24c:	08 c0       	rjmp	.+16     	; 0x25e <mcu_init+0x44>
-		*((uint8_t *)&PORTB + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-	}
-
-	for (uint8_t i = 0; i < 8; i++) {
-		*((uint8_t *)&PORTC + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
- 24e:	e8 2f       	mov	r30, r24
- 250:	f0 e0       	ldi	r31, 0x00	; 0
- 252:	e0 5b       	subi	r30, 0xB0	; 176
- 254:	fb 4f       	sbci	r31, 0xFB	; 251
- 256:	90 81       	ld	r25, Z
- 258:	98 60       	ori	r25, 0x08	; 8
- 25a:	90 83       	st	Z, r25
-
-	for (uint8_t i = 0; i < 8; i++) {
-		*((uint8_t *)&PORTB + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-	}
-
-	for (uint8_t i = 0; i < 8; i++) {
- 25c:	8f 5f       	subi	r24, 0xFF	; 255
- 25e:	88 30       	cpi	r24, 0x08	; 8
- 260:	b0 f3       	brcs	.-20     	; 0x24e <mcu_init+0x34>
-		*((uint8_t *)&PORTC + 0x10 + i) |= 1 << PORT_PULLUPEN_bp;
-	}
-}
- 262:	08 95       	ret
-
-00000264 <system_init>:
-/**
- * \brief System initialization
- */
-void system_init()
-{
-	mcu_init();
- 264:	da df       	rcall	.-76     	; 0x21a <mcu_init>
-
-	CLKCTRL_init();
- 266:	cb df       	rcall	.-106    	; 0x1fe <CLKCTRL_init>
-
-	RTC_0_init();
- 268:	08 d0       	rcall	.+16     	; 0x27a <RTC_0_init>
-
-	CPUINT_init();
- 26a:	d5 df       	rcall	.-86     	; 0x216 <CPUINT_init>
-
-	SLPCTRL_init();
- 26c:	12 d0       	rcall	.+36     	; 0x292 <SLPCTRL_init>
-
-	BOD_init();
- 26e:	c5 df       	rcall	.-118    	; 0x1fa <BOD_init>
- 270:	08 95       	ret
-
-00000272 <protected_write_io>:
-#if defined(__GNUC__)
-  
-#ifdef RAMPZ
-	out     _SFR_IO_ADDR(RAMPZ), r1         // Clear bits 23:16 of Z
-#endif
-	movw    r30, r24                // Load addr into Z
- 272:	fc 01       	movw	r30, r24
-	out     CCP, r22                // Start CCP handshake
- 274:	64 bf       	out	0x34, r22	; 52
-	st      Z, r20                  // Write value to I/O register
- 276:	40 83       	st	Z, r20
-	ret                             // Return to caller
- 278:	08 95       	ret
-
-0000027a <RTC_0_init>:
- * \return Initialization status.
- */
-int8_t RTC_0_init()
-{
-
-	while (RTC.STATUS > 0) { /* Wait for all register to be synchronized */
- 27a:	80 91 41 01 	lds	r24, 0x0141	; 0x800141 <__RODATA_PM_OFFSET__+0x7f8141>
- 27e:	81 11       	cpse	r24, r1
- 280:	fc cf       	rjmp	.-8      	; 0x27a <RTC_0_init>
-
-	// RTC.CMP = 0x0; /* Compare: 0x0 */
-
-	// RTC.CNT = 0x0; /* Counter: 0x0 */
-
-	RTC.CTRLA = RTC_PRESCALER_DIV1_gc   /* 1 */
- 282:	e0 e4       	ldi	r30, 0x40	; 64
- 284:	f1 e0       	ldi	r31, 0x01	; 1
- 286:	81 e0       	ldi	r24, 0x01	; 1
- 288:	80 83       	st	Z, r24
-	            | 1 << RTC_RTCEN_bp     /* Enable: enabled */
-	            | 0 << RTC_RUNSTDBY_bp; /* Run In Standby: disabled */
-
-	// RTC.PER = 0xffff; /* Period: 0xffff */
-
-	RTC.CLKSEL = RTC_CLKSEL_TOSC32K_gc; /* 32.768kHz External Crystal Oscillator (XOSC32K) */
- 28a:	82 e0       	ldi	r24, 0x02	; 2
- 28c:	87 83       	std	Z+7, r24	; 0x07
-	// RTC.PITDBGCTRL = 0 << RTC_DBGRUN_bp; /* Run in debug: disabled */
-
-	// RTC.PITINTCTRL = 0 << RTC_PI_bp; /* Periodic Interrupt: disabled */
-
-	return 0;
-}
- 28e:	80 e0       	ldi	r24, 0x00	; 0
- 290:	08 95       	ret
-
-00000292 <SLPCTRL_init>:
-
-	// SLPCTRL.CTRLA = 0 << SLPCTRL_SEN_bp /* Sleep enable: disabled */
-	//		 | SLPCTRL_SMODE_IDLE_gc; /* Idle mode */
-
-	return 0;
-}
- 292:	80 e0       	ldi	r24, 0x00	; 0
- 294:	08 95       	ret
-
-00000296 <ccp_write_io>:
- 296:	dc 01       	movw	r26, r24
- 298:	28 ed       	ldi	r18, 0xD8	; 216
- 29a:	20 93 34 00 	sts	0x0034, r18	; 0x800034 <__RODATA_PM_OFFSET__+0x7f8034>
- 29e:	6c 93       	st	X, r22
- 2a0:	08 95       	ret
-
-000002a2 <_exit>:
- 2a2:	f8 94       	cli
-
-000002a4 <__stop_program>:
- 2a4:	ff cf       	rjmp	.-2      	; 0x2a4 <__stop_program>
+0000029a <__stop_program>:
+ 29a:	ff cf       	rjmp	.-2      	; 0x29a <__stop_program>
