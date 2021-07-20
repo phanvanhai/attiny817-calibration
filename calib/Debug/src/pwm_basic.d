@@ -1,5 +1,5 @@
-driver_isr.d driver_isr.o: .././driver_isr.c ../include/driver_init.h \
- ../utils/compiler.h \
+src/pwm_basic.d src/pwm_basic.o: ../src/pwm_basic.c \
+ ../include/pwm_basic.h ../utils/compiler.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -17,13 +17,9 @@ driver_isr.d driver_isr.o: .././driver_isr.c ../include/driver_init.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  ../utils/interrupt_avr8.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
- ../Config/clock_config.h ../include/port.h ../include/atmel_start_pins.h \
- ../include/clkctrl.h ../include/rtc.h ../utils/utils_assert.h \
- ../include/pwm_basic.h ../include/cpuint.h ../include/slpctrl.h \
- ../include/bod.h
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h
 
-../include/driver_init.h:
+../include/pwm_basic.h:
 
 ../utils/compiler.h:
 
@@ -62,23 +58,3 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../utils/interrupt_avr8.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
-
-../Config/clock_config.h:
-
-../include/port.h:
-
-../include/atmel_start_pins.h:
-
-../include/clkctrl.h:
-
-../include/rtc.h:
-
-../utils/utils_assert.h:
-
-../include/pwm_basic.h:
-
-../include/cpuint.h:
-
-../include/slpctrl.h:
-
-../include/bod.h:

@@ -36,6 +36,23 @@
 #include "driver_init.h"
 #include <system.h>
 
+void PWM_0_initialization(void)
+{
+
+	// Set pin direction to output
+
+	PB1_set_level(
+	    // <y> Initial level
+	    // <id> pad_initial_level
+	    // <false"> Low
+	    // <true"> High
+	    false);
+
+	PB1_set_dir(PORT_DIR_OUT);
+
+	PWM_0_init();
+}
+
 /**
  * \brief System initialization
  */
@@ -46,6 +63,8 @@ void system_init()
 	CLKCTRL_init();
 
 	RTC_0_init();
+
+	PWM_0_initialization();
 
 	CPUINT_init();
 

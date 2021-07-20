@@ -45,6 +45,8 @@
         <file category="doc" condition="GCC, XC8, IAR" name="modules/cpuint/doc/cpuint.rst"/>
         <file category="doc" condition="GCC, XC8, IAR" name="modules/rtc/doc/rtc.rst"/>
         <file category="doc" condition="GCC, XC8, IAR" name="modules/slpctrl/doc/slpctrl.rst"/>
+        <file category="doc" condition="GCC, XC8, IAR" name="modules/timer/doc/tca.rst"/>
+        <file category="doc" condition="GCC, XC8, IAR" name="modules/timer/doc/tcb.rst"/>
         <file category="source" condition="GCC, XC8, IAR" name="main.c"/>
         <file category="source" condition="GCC, XC8, IAR" name="src/driver_init.c"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/driver_init.h"/>
@@ -53,14 +55,19 @@
         <file category="other" condition="GCC, XC8, IAR" name="doxygen/mainpage.dox"/>
         <file category="other" condition="GCC, XC8, IAR" name="doxygen/generator/doxyfile.doxygen"/>
         <file category="other" condition="GCC, XC8, IAR" name="doxygen/generator/DoxygenLayout.xml"/>
+        <file category="other" condition="GCC, XC8, IAR" name="doxygen/pwm.dox"/>
+        <file category="other" condition="GCC, XC8, IAR" name="doxygen/pwm_basic.dox"/>
         <file category="other" condition="GCC, XC8, IAR" name="doxygen/rtc.dox"/>
         <file category="other" condition="GCC, XC8, IAR" name="doxygen/system.dox"/>
+        <file category="header" condition="GCC, XC8, IAR" name="examples/include/pwm_basic_example.h"/>
+        <file category="source" condition="GCC, XC8, IAR" name="examples/src/pwm_basic_example.c"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/bod.h"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/ccp.h"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/clkctrl.h"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/cpuint.h"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/port.h"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/protected_io.h"/>
+        <file category="header" condition="GCC, XC8, IAR" name="include/pwm_basic.h"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/rstctrl.h"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/rtc.h"/>
         <file category="header" condition="GCC, XC8, IAR" name="include/slpctrl.h"/>
@@ -69,6 +76,7 @@
         <file category="source" condition="GCC, XC8, IAR" name="src/clkctrl.c"/>
         <file category="source" condition="GCC, XC8, IAR" name="src/cpuint.c"/>
         <file category="source" condition="GCC, XC8, IAR" name="src/protected_io.S"/>
+        <file category="source" condition="GCC, XC8, IAR" name="src/pwm_basic.c"/>
         <file category="source" condition="GCC, XC8, IAR" name="src/rtc.c"/>
         <file category="source" condition="GCC, XC8, IAR" name="src/slpctrl.c"/>
         <file category="header" condition="GCC, XC8, IAR" name="utils/assembler.h"/>
@@ -83,6 +91,7 @@
         <file category="source" condition="GCC, XC8, IAR" name="atmel_start.c"/>
         <file attr="config" category="header" condition="GCC, XC8, IAR" name="config/clock_config.h"/>
         <file category="include" condition="GCC, XC8, IAR" name="config"/>
+        <file category="include" condition="GCC, XC8, IAR" name="examples/include"/>
         <file category="include" condition="GCC, XC8, IAR" name="include"/>
         <file category="include" condition="GCC, XC8, IAR" name="utils"/>
         <file category="include" condition="GCC, XC8, IAR" name="utils/assembler"/>

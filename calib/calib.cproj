@@ -52,16 +52,19 @@
         </TopLevelComponents>
         <AcmeActionInfos>
           <AcmeProjectActionInfo Action="File" Source="main.c" IsConfig="false" Hash="k0AH7j+BrmdFhBPzCCMptA" />
-          <AcmeProjectActionInfo Action="File" Source="src/driver_init.c" IsConfig="false" Hash="DJImWuWy1LeZNfH/10qa/Q" />
-          <AcmeProjectActionInfo Action="File" Source="include/driver_init.h" IsConfig="false" Hash="Y1DOq335BQChCo1/Dz9h/g" />
-          <AcmeProjectActionInfo Action="File" Source="include/atmel_start_pins.h" IsConfig="false" Hash="L38+hWieZbhI5P0fMhKztA" />
+          <AcmeProjectActionInfo Action="File" Source="src/driver_init.c" IsConfig="false" Hash="AxEX9czV4GyYR+GwWDbLFA" />
+          <AcmeProjectActionInfo Action="File" Source="include/driver_init.h" IsConfig="false" Hash="MSL81CL52GA3gTfV8Qzy3w" />
+          <AcmeProjectActionInfo Action="File" Source="include/atmel_start_pins.h" IsConfig="false" Hash="ikrlA2AyEt7qJdIWt1MJWw" />
           <AcmeProjectActionInfo Action="File" Source="driver_isr.c" IsConfig="false" Hash="MvMMK2GhxVFkAQcdYQz48Q" />
+          <AcmeProjectActionInfo Action="File" Source="examples/include/pwm_basic_example.h" IsConfig="false" Hash="QeajnpcuyG8xN1I1xkInrg" />
+          <AcmeProjectActionInfo Action="File" Source="examples/src/pwm_basic_example.c" IsConfig="false" Hash="r6zazCi/0LNTXNCxmjFD8Q" />
           <AcmeProjectActionInfo Action="File" Source="include/bod.h" IsConfig="false" Hash="ZLQQMk2tvecp7+/rnFJ88w" />
           <AcmeProjectActionInfo Action="File" Source="include/ccp.h" IsConfig="false" Hash="5tZzJbuv1SnHXckp4Dkw+w" />
           <AcmeProjectActionInfo Action="File" Source="include/clkctrl.h" IsConfig="false" Hash="zM1JGmuFxSf4GSXRFGmwTg" />
           <AcmeProjectActionInfo Action="File" Source="include/cpuint.h" IsConfig="false" Hash="B9ieKCbk0a2E+V1R0rNoCQ" />
           <AcmeProjectActionInfo Action="File" Source="include/port.h" IsConfig="false" Hash="keucz9fStcOZJeU7DxDcPQ" />
           <AcmeProjectActionInfo Action="File" Source="include/protected_io.h" IsConfig="false" Hash="kBH1k8wuaJhV5U4694Cbvg" />
+          <AcmeProjectActionInfo Action="File" Source="include/pwm_basic.h" IsConfig="false" Hash="isSzfjMDejRz3qFbxdG3Eg" />
           <AcmeProjectActionInfo Action="File" Source="include/rstctrl.h" IsConfig="false" Hash="QzSR3iFGzImWwhFxG4W8ag" />
           <AcmeProjectActionInfo Action="File" Source="include/rtc.h" IsConfig="false" Hash="p5dX25b5xnQHNzfxtf12RQ" />
           <AcmeProjectActionInfo Action="File" Source="include/slpctrl.h" IsConfig="false" Hash="RmK0UGftfBRePkRJ8R5ifw" />
@@ -70,6 +73,7 @@
           <AcmeProjectActionInfo Action="File" Source="src/clkctrl.c" IsConfig="false" Hash="1VoCePz7f6uV3aFlPyN3Zg" />
           <AcmeProjectActionInfo Action="File" Source="src/cpuint.c" IsConfig="false" Hash="8QNlbJZ6R6wBiCT5nh902g" />
           <AcmeProjectActionInfo Action="File" Source="src/protected_io.S" IsConfig="false" Hash="sgFkmFP7h1y8L07bVZahaQ" />
+          <AcmeProjectActionInfo Action="File" Source="src/pwm_basic.c" IsConfig="false" Hash="s6zvtx8y/hnPxFL57oIq0A" />
           <AcmeProjectActionInfo Action="File" Source="src/rtc.c" IsConfig="false" Hash="YDlpeHbfdZBJd0mVNacYkw" />
           <AcmeProjectActionInfo Action="File" Source="src/slpctrl.c" IsConfig="false" Hash="QkIqUubBLg6fH7ESMxxauQ" />
           <AcmeProjectActionInfo Action="File" Source="utils/assembler.h" IsConfig="false" Hash="jaaWqpCXnRJMciuXpjSfgQ" />
@@ -88,7 +92,7 @@
       </AcmeProjectConfig>
     </AcmeProjectConfig>
     <avrtool>com.atmel.avrdbg.tool.edbg</avrtool>
-    <avrtoolserialnumber>ATML2654071800005003</avrtoolserialnumber>
+    <avrtoolserialnumber>ATML2654071800004557</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x1E9320</avrdeviceexpectedsignature>
     <avrtoolinterface>UPDI</avrtoolinterface>
     <com_atmel_avrdbg_tool_edbg>
@@ -99,7 +103,7 @@
         <InterfaceName>UPDI</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.edbg</ToolType>
-      <ToolNumber>ATML2654071800005003</ToolNumber>
+      <ToolNumber>ATML2654071800004557</ToolNumber>
       <ToolName>EDBG</ToolName>
     </com_atmel_avrdbg_tool_edbg>
     <avrtoolinterfaceclock>500000</avrtoolinterfaceclock>
@@ -107,105 +111,112 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
       <AvrGcc>
-        <avrgcc.common.Device>-mmcu=attiny817 -B "%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\gcc\dev\attiny817"</avrgcc.common.Device>
-        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
-        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
-        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
-        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
-        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
-        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
-        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
-        <avrgcc.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>NDEBUG</Value>
-          </ListValues>
-        </avrgcc.compiler.symbols.DefSymbols>
-        <avrgcc.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>../include</Value>
-            <Value>../utils</Value>
-            <Value>../utils/assembler</Value>
-            <Value>../</Value>
-            <Value>../Config</Value>
-            <Value>%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\include\</Value>
-          </ListValues>
-        </avrgcc.compiler.directories.IncludePaths>
-        <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
-        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
-        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
-        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
-        <avrgcc.linker.libraries.Libraries>
-          <ListValues>
-            <Value>libm</Value>
-          </ListValues>
-        </avrgcc.linker.libraries.Libraries>
-        <avrgcc.assembler.general.IncludePaths>
-          <ListValues>
-            <Value>../Config</Value>
-            <Value>../include</Value>
-            <Value>../utils</Value>
-            <Value>../utils/assembler</Value>
-            <Value>../</Value>
-            <Value>%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\include\</Value>
-          </ListValues>
-        </avrgcc.assembler.general.IncludePaths>
-      </AvrGcc>
+  <avrgcc.common.Device>-mmcu=attiny817 -B "%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\gcc\dev\attiny817"</avrgcc.common.Device>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>NDEBUG</Value>
+    </ListValues>
+  </avrgcc.compiler.symbols.DefSymbols>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>../include</Value>
+      <Value>../utils</Value>
+      <Value>../utils/assembler</Value>
+      <Value>../</Value>
+      <Value>../Config</Value>
+      <Value>../examples/include</Value>
+      <Value>%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\include\</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+  <avrgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </avrgcc.linker.libraries.Libraries>
+  <avrgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>../Config</Value>
+      <Value>../examples/include</Value>
+      <Value>../include</Value>
+      <Value>../utils</Value>
+      <Value>../utils/assembler</Value>
+      <Value>../</Value>
+      <Value>%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\include\</Value>
+    </ListValues>
+  </avrgcc.assembler.general.IncludePaths>
+</AvrGcc>
     </ToolchainSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <AvrGcc>
-        <avrgcc.common.Device>-mmcu=attiny817 -B "%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\gcc\dev\attiny817"</avrgcc.common.Device>
-        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
-        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
-        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
-        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
-        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
-        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
-        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
-        <avrgcc.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>DEBUG</Value>
-          </ListValues>
-        </avrgcc.compiler.symbols.DefSymbols>
-        <avrgcc.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>../include</Value>
-            <Value>../utils</Value>
-            <Value>../utils/assembler</Value>
-            <Value>../</Value>
-            <Value>../Config</Value>
-            <Value>%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\include\</Value>
-          </ListValues>
-        </avrgcc.compiler.directories.IncludePaths>
-        <avrgcc.compiler.optimization.level>Optimize debugging experience (-Og)</avrgcc.compiler.optimization.level>
-        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
-        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
-        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
-        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
-        <avrgcc.linker.libraries.Libraries>
-          <ListValues>
-            <Value>libm</Value>
-          </ListValues>
-        </avrgcc.linker.libraries.Libraries>
-        <avrgcc.assembler.general.IncludePaths>
-          <ListValues>
-            <Value>../Config</Value>
-            <Value>../include</Value>
-            <Value>../utils</Value>
-            <Value>../utils/assembler</Value>
-            <Value>../</Value>
-            <Value>%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\include\</Value>
-          </ListValues>
-        </avrgcc.assembler.general.IncludePaths>
-        <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
-      </AvrGcc>
+  <avrgcc.common.Device>-mmcu=attiny817 -B "%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\gcc\dev\attiny817"</avrgcc.common.Device>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>DEBUG</Value>
+    </ListValues>
+  </avrgcc.compiler.symbols.DefSymbols>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>../include</Value>
+      <Value>../utils</Value>
+      <Value>../utils/assembler</Value>
+      <Value>../</Value>
+      <Value>../Config</Value>
+      <Value>../examples/include</Value>
+      <Value>%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\include\</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.level>Optimize debugging experience (-Og)</avrgcc.compiler.optimization.level>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+  <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+  <avrgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </avrgcc.linker.libraries.Libraries>
+  <avrgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>../Config</Value>
+      <Value>../examples/include</Value>
+      <Value>../include</Value>
+      <Value>../utils</Value>
+      <Value>../utils/assembler</Value>
+      <Value>../</Value>
+      <Value>%24(PackRepoDir)\Atmel\ATtiny_DFP\1.9.337\include\</Value>
+    </ListValues>
+  </avrgcc.assembler.general.IncludePaths>
+  <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
+</AvrGcc>
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Config\" />
     <Folder Include="doxygen\" />
     <Folder Include="doxygen\generator\" />
+    <Folder Include="examples\" />
+    <Folder Include="examples\include\" />
+    <Folder Include="examples\src\" />
     <Folder Include="include\" />
     <Folder Include="modules\" />
     <Folder Include="modules\bod\" />
@@ -218,6 +229,8 @@
     <Folder Include="modules\rtc\doc\" />
     <Folder Include="modules\slpctrl\" />
     <Folder Include="modules\slpctrl\doc\" />
+    <Folder Include="modules\timer\" />
+    <Folder Include="modules\timer\doc\" />
     <Folder Include="src\" />
     <Folder Include="utils\" />
     <Folder Include="utils\assembler\" />
@@ -229,10 +242,10 @@
     <Compile Include="atmel_start.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="calib_32kHz.c">
+    <Compile Include="calibRC.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="calib_values.h">
+    <Compile Include="calibRC.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Config\clock_config.h">
@@ -242,6 +255,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="driver_isr.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="examples\include\pwm_basic_example.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="examples\src\pwm_basic_example.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="include\atmel_start_pins.h">
@@ -266,6 +285,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="include\protected_io.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\pwm_basic.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="include\rstctrl.h">
@@ -296,6 +318,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\protected_io.S">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\pwm_basic.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\rtc.c">
@@ -339,6 +364,12 @@
     <None Include="doxygen\mainpage.dox">
       <SubType>compile</SubType>
     </None>
+    <None Include="doxygen\pwm.dox">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="doxygen\pwm_basic.dox">
+      <SubType>compile</SubType>
+    </None>
     <None Include="doxygen\rtc.dox">
       <SubType>compile</SubType>
     </None>
@@ -358,6 +389,12 @@
       <SubType>compile</SubType>
     </None>
     <None Include="modules\slpctrl\doc\slpctrl.rst">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="modules\timer\doc\tca.rst">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="modules\timer\doc\tcb.rst">
       <SubType>compile</SubType>
     </None>
   </ItemGroup>

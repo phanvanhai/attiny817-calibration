@@ -111,6 +111,53 @@ drivers:
           external_frequency: 0
         configuration:
           rtc_clock_source: RTC Clock (CLK_RTC)
+  PWM_0:
+    user_label: PWM_0
+    definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny817-MFR::TCA0::driver_config_definition::Single.Slope.~28Fast~29.Programmable.TOP::Drivers:PWM:Basic
+    functionality: PWM
+    api: Drivers:PWM:Basic
+    configuration:
+      callback_rate: 0
+      inc_overflow_irq: false
+      tca_cmp0: 0
+      tca_cmp1: 500
+      tca_cmp2: 0
+      tca_cnt: 0
+      tca_ctrla_clksel: System Clock
+      tca_ctrla_enable: true
+      tca_ctrlb_alupd: false
+      tca_ctrlb_cmp0en: Normal port operation, PWM pin disconnected
+      tca_ctrlb_cmp1en: PWM connected to pin
+      tca_ctrlb_cmp2en: Normal port operation, PWM pin disconnected
+      tca_ctrlc_cmp0ov: false
+      tca_ctrlc_cmp1ov: false
+      tca_ctrlc_cmp2ov: false
+      tca_dbgctrl_dbgrun: false
+      tca_evctrl_cntei: false
+      tca_evctrl_evact: Count on positive edge event
+      tca_intctrl_cmp0: false
+      tca_intctrl_cmp1: false
+      tca_intctrl_cmp2: false
+      tca_intctrl_ovf: false
+      tca_per: 1000
+    optional_signals:
+    - identifier: PWM_0:WO/1
+      pad: PB1
+      mode: Enabled
+      configuration: null
+      definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny817-MFR::optional_signal_definition::TCA0.WO.1
+      name: TCA0/WO/1
+      label: WO/1
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: TCA
+          input: Main Clock (CLK_MAIN)
+          external: false
+          external_frequency: 0
+        configuration:
+          tca_clock_source: Main Clock (CLK_MAIN)
   CPUINT:
     user_label: CPUINT
     definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny817-MFR::CPUINT::driver_config_definition::CPUINT::Drivers:CPUINT:Init
@@ -162,8 +209,21 @@ drivers:
           external_frequency: 0
         configuration:
           bod_clock_source: 32KHz divided by 32
-pads: {}
+pads:
+  PB1:
+    name: PB1
+    definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny817-MFR::pad::PB1
+    mode: Digital output
+    user_label: PB1
+    configuration: null
 toolchain_options:
+- definition:
+    identifier: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny817-MFR::environment_definition::All:Atmel.Studio:7.0.0
+  configuration:
+    compiler_config:
+      avrgcc_compiler_miscellaneous_OtherFlags: -std=gnu99
+    linker_config:
+      avrgcc_linker_miscellaneous_LinkerFlags: ''
 - definition:
     identifier: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny817-MFR::environment_definition::All:Microchip.Studio.gcc:7.0.0
   configuration:
@@ -178,11 +238,4 @@ toolchain_options:
       xc8_compiler_miscellaneous_OtherFlags: -std=gnu99
     linker_config:
       xc8_linker_miscellaneous_LinkerFlags: ''
-- definition:
-    identifier: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny817-MFR::environment_definition::All:Atmel.Studio:7.0.0
-  configuration:
-    compiler_config:
-      avrgcc_compiler_miscellaneous_OtherFlags: -std=gnu99
-    linker_config:
-      avrgcc_linker_miscellaneous_LinkerFlags: ''
 static_files: []

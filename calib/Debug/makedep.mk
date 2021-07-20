@@ -4,9 +4,11 @@
 
 atmel_start.c
 
-calib_32kHz.c
+calibRC.c
 
 driver_isr.c
+
+examples\src\pwm_basic_example.c
 
 main.c
 
@@ -19,6 +21,8 @@ src\cpuint.c
 src\driver_init.c
 
 src\protected_io.S
+
+src\pwm_basic.c
 
 src\rtc.c
 
