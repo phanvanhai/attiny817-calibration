@@ -25,7 +25,7 @@ unsigned int calibration;
 signed char sign;
 
 //Functions used
-void CalibrateInternalRc(void);
+signed char CalibrateInternalRc(void);
 unsigned int Counter(void);
 void BinarySearch(unsigned int ct);
 void NeighborSearch(void);
@@ -39,7 +39,7 @@ void _delay_5us(void);
 *
 */
 
-unsigned char CalibInternalRc(void){
+signed char CalibInternalRc(void){
 	// Sets initial stepsize and sets calibration state to "running"
 	calStep = INITIAL_STEP;
 	calibration = RUNNING;
@@ -47,12 +47,13 @@ unsigned char CalibInternalRc(void){
 	
 	while (STATUS_TIMER_REGISTER > 0);					// Wait until async timer is updated  (Async Status reg. busy flags).
 	
-	ccp_write_io((void*)&(OSCCALR), DEFAULT_OSCCAL);	// Initiates calibration
-	NOP();                                           
+	#ifdef CALIBRATION_METHOD_TURNING
+	#else
+		ccp_write_io((void*)&(OSCCALR), DEFAULT_OSCCAL);	// Initiates calibration
+		NOP();                                           
+	#endif
 	
-	CalibrateInternalRc();								// Calibrates to selected frequency
-	
-	return OSCCALR;
+	return CalibrateInternalRc();								// Calibrates to selected frequency
 }
 
 /*! \brief Calibration function
@@ -61,69 +62,115 @@ unsigned char CalibInternalRc(void){
 * Compares different calibration results in order to achieve optimal results.
 *
 */
-void CalibrateInternalRc(void){
+signed char CalibrateInternalRc(void){
 	unsigned int count;
 
-#ifdef CALIBRATION_METHOD_SIMPLE                                // Simple search method
-	unsigned char cycles = (1 << OSCCAL_RESOLUTION);			// = 1/2 calib value range
-
-	do{
-		count = Counter();
-		if (count > countVal)										// If count is more than count value corresponding to the given frequency
-		{
-			ccp_write_io((void*)&(OSCCALR), OSCCALR - 1);           // decrease speed
-			NOP();
-		}
-		if (count < countVal)
-		{
-			ccp_write_io((void*)&(OSCCALR), OSCCALR + 1);			// If count is less: increase speed
-			NOP();
-		}
-		
-		if (count == countVal) cycles = 1;
-	} while(--cycles);												// Calibrate using 32 (0x20) calibration cycles
-	
-#else																// Binary search with or without neighbor search
+#ifdef CALIBRATION_METHOD_TURNING
 	unsigned int countDiff;
-	unsigned char neighborSearchStatus = FINISHED;
-
-	while(calibration == RUNNING){
-		count = Counter();                                          // Counter returns the count value after external ticks on XTAL
-		if (calStep != 0)
+	neighborsSearched = 0;
+	
+	unsigned char i = 0;
+	calibration = FINISHED;
+	
+	while(i++ < COUNT_RETRY)
+	{
+		count = Counter();
+		countDiff = ABS((signed int)count-(signed int)countVal);
+		if (countDiff < (countVal * ACCURACY_DEFAULT))
 		{
-			BinarySearch(count);									// Do binary search until stepsize is zero
-		}
-		else
-		{
-			if(neighborSearchStatus == RUNNING)
-			{
-				countDiff = ABS((signed int)count-(signed int)countVal);
-				if (countDiff < bestCountDiff)						// Store OSCCALR if higher accuracy is achieved
-				{
-					bestCountDiff = countDiff;
-					bestOSCCAL = OSCCALR;
-				}
-				NeighborSearch();									// Do neighbor search
-			}
-			else													// Prepare and start neighbor search
-			{
-				#ifdef CALIBRATION_METHOD_BINARY_WITHOUT_NEIGHBOR	// No neighbor search if deselected
-					calibration = FINISHED;
-					countDiff = ABS((signed int)count-(signed int)countVal);
-					bestCountDiff = countDiff;
-					bestOSCCAL = OSCCALR;
-				#else
-					neighborSearchStatus = RUNNING;					// Do neighbor search by default
-					neighborsSearched = 0;
-					countDiff = ABS((signed int)count-(signed int)countVal);
-					bestCountDiff = countDiff;
-					bestOSCCAL = OSCCALR;
-				#endif
-			}
-		}
+			break;
+		}		
 	}
-	#endif
+	if (i >= COUNT_RETRY) return -1;
+	
+	if (count < countVal)
+	{
+		sign = 1;
+	}
+	else if (count > countVal)
+	{
+		sign = -1;
+	} else
+	{
+		calibration = FINISHED;
+	}
+	bestCountDiff = countDiff;
+	bestOSCCAL = OSCCALR;
+	NeighborSearch();
+	
+	while(calibration == RUNNING){
+		count = Counter();                                          // Counter returns the count value after external ticks on XTAL		
+		countDiff = ABS((signed int)count-(signed int)countVal);
+		if (countDiff < bestCountDiff)						// Store OSCCALR if higher accuracy is achieved
+		{
+			bestCountDiff = countDiff;
+			bestOSCCAL = OSCCALR;
+		}
+		NeighborSearch();
+	}
+#else
+	#ifdef CALIBRATION_METHOD_SIMPLE                                // Simple search method
+		unsigned char cycles = (1 << OSCCAL_RESOLUTION);			// = 1/2 calib value range
 
+		do{
+			count = Counter();
+			if (count > countVal)										// If count is more than count value corresponding to the given frequency
+			{
+				ccp_write_io((void*)&(OSCCALR), OSCCALR - 1);           // decrease speed
+				NOP();
+			}
+			if (count < countVal)
+			{
+				ccp_write_io((void*)&(OSCCALR), OSCCALR + 1);			// If count is less: increase speed
+				NOP();
+			}
+		
+			if (count == countVal) cycles = 1;
+		} while(--cycles);												// Calibrate using 32 (0x20) calibration cycles
+	
+	#else																// Binary search with or without neighbor search
+		unsigned int countDiff;
+		unsigned char neighborSearchStatus = FINISHED;
+
+		while(calibration == RUNNING){
+			count = Counter();                                          // Counter returns the count value after external ticks on XTAL
+			if (calStep != 0)
+			{
+				BinarySearch(count);									// Do binary search until stepsize is zero
+			}
+			else
+			{
+				if(neighborSearchStatus == RUNNING)
+				{
+					countDiff = ABS((signed int)count-(signed int)countVal);
+					if (countDiff < bestCountDiff)						// Store OSCCALR if higher accuracy is achieved
+					{
+						bestCountDiff = countDiff;
+						bestOSCCAL = OSCCALR;
+					}
+					NeighborSearch();									// Do neighbor search
+				}
+				else													// Prepare and start neighbor search
+				{
+					#ifdef CALIBRATION_METHOD_BINARY_WITHOUT_NEIGHBOR	// No neighbor search if deselected
+						calibration = FINISHED;
+						countDiff = ABS((signed int)count-(signed int)countVal);
+						bestCountDiff = countDiff;
+						bestOSCCAL = OSCCALR;
+					#else
+						neighborSearchStatus = RUNNING;					// Do neighbor search by default
+						neighborsSearched = 0;
+						countDiff = ABS((signed int)count-(signed int)countVal);
+						bestCountDiff = countDiff;
+						bestOSCCAL = OSCCALR;
+					#endif
+				}
+			}
+		}
+	#endif
+#endif
+
+	return 0;
 }
 
 /*! \brief The Counter function
@@ -203,7 +250,7 @@ void NeighborSearch(void){
 	}
 	else
 	{
-		ccp_write_io((void*)&(OSCCALR),OSCCALR + sign);
+		ccp_write_io((void*)&(OSCCALR), OSCCALR + sign);
 		NOP();
 	}
 }

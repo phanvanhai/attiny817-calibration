@@ -16,6 +16,7 @@
  */
 //#define CALIBRATION_METHOD_BINARY_WITHOUT_NEIGHBOR
 //#define CALIBRATION_METHOD_SIMPLE
+#define CALIBRATION_METHOD_TURNING
 
 #define CALIBRATION_FREQUENCY F_CPU
 #define XTAL_FREQUENCY 32768				// Frequency of the external oscillator. A 32kHz crystal is recommended
@@ -36,6 +37,8 @@ Depends on device type, see the datasheet for suitable selection
 #define OSCCAL_RESOLUTION                  6
 #define LOOP_CYCLES                       12
 
+#define ACCURACY_DEFAULT		2/100			// 2%
+#define COUNT_RETRY				10
 #define INITIAL_STEP         (1 << (OSCCAL_RESOLUTION - 2))
 #define DEFAULT_OSCCAL      ((1 << (OSCCAL_RESOLUTION - 1)) | DEFAULT_OSCCAL_MASK)
 
@@ -44,7 +47,7 @@ Depends on device type, see the datasheet for suitable selection
 // Absolute value macro.
 #define ABS(var) (((var) < 0) ? -(var) : (var));
 
-unsigned char CalibInternalRc(void);
+signed char CalibInternalRc(void);
 
 
 #endif /* CALIBRC_H_ */

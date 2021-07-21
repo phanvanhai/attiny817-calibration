@@ -7,7 +7,8 @@ int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
-	_delay_ms(1);
+	_delay_ms(10);
+	_NOP();
 	CalibInternalRc();
 	_NOP();
 	/* Replace with your application code */
