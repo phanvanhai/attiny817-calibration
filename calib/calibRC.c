@@ -9,6 +9,7 @@
 #include <avr/cpufunc.h>
 #include <atmel_start.h>
 
+unsigned char defaultCalibValueAtmel;
 //! Holds the number of neighbors searched
 unsigned char neighborsSearched;
 //! The binary search step size
@@ -24,12 +25,24 @@ unsigned int calibration;
 //! Stores the direction of the binary step (-1 or 1)
 signed char sign;
 
+signed char success_flag = -1;
+
 //Functions used
 signed char CalibrateInternalRc(void);
 unsigned int Counter(void);
-void BinarySearch(unsigned int ct);
 void NeighborSearch(void);
 void _delay_5us(void);
+
+void InitCalibRc(void)
+{
+	// Sets initial stepsize and sets calibration state to "running"
+	calStep = INITIAL_STEP;
+	calibration = RUNNING;
+	countVal = ((EXTERNAL_TICKS * CALIBRATION_FREQUENCY) / (XTAL_FREQUENCY * LOOP_CYCLES));
+	
+	while (STATUS_TIMER_REGISTER > 0);					// Wait until async timer is updated  (Async Status reg. busy flags).
+	defaultCalibValueAtmel = OSCCALR;
+}
 
 /*! \brief Program entry point.
 *
@@ -40,19 +53,6 @@ void _delay_5us(void);
 */
 
 signed char CalibInternalRc(void){
-	// Sets initial stepsize and sets calibration state to "running"
-	calStep = INITIAL_STEP;
-	calibration = RUNNING;
-	countVal = ((EXTERNAL_TICKS * CALIBRATION_FREQUENCY) / (XTAL_FREQUENCY * LOOP_CYCLES));
-	
-	while (STATUS_TIMER_REGISTER > 0);					// Wait until async timer is updated  (Async Status reg. busy flags).
-	
-	#ifdef CALIBRATION_METHOD_TURNING
-	#else
-		ccp_write_io((void*)&(OSCCALR), DEFAULT_OSCCAL);	// Initiates calibration
-		NOP();                                           
-	#endif
-	
 	return CalibrateInternalRc();								// Calibrates to selected frequency
 }
 
@@ -64,10 +64,10 @@ signed char CalibInternalRc(void){
 */
 signed char CalibrateInternalRc(void){
 	unsigned int count;
-
-#ifdef CALIBRATION_METHOD_TURNING
 	unsigned int countDiff;
 	neighborsSearched = 0;
+	
+	success_flag = -1;
 	
 	unsigned char i = 0;
 	calibration = FINISHED;
@@ -81,7 +81,8 @@ signed char CalibrateInternalRc(void){
 			break;
 		}		
 	}
-	if (i >= COUNT_RETRY) return -1;
+	
+	if (i >= COUNT_RETRY) return success_flag;
 	
 	if (count < countVal)
 	{
@@ -92,8 +93,11 @@ signed char CalibrateInternalRc(void){
 		sign = -1;
 	} else
 	{
+		success_flag = 0;
+		sign = 0;
 		calibration = FINISHED;
 	}
+	
 	bestCountDiff = countDiff;
 	bestOSCCAL = OSCCALR;
 	NeighborSearch();
@@ -108,69 +112,8 @@ signed char CalibrateInternalRc(void){
 		}
 		NeighborSearch();
 	}
-#else
-	#ifdef CALIBRATION_METHOD_SIMPLE                                // Simple search method
-		unsigned char cycles = (1 << OSCCAL_RESOLUTION);			// = 1/2 calib value range
 
-		do{
-			count = Counter();
-			if (count > countVal)										// If count is more than count value corresponding to the given frequency
-			{
-				ccp_write_io((void*)&(OSCCALR), OSCCALR - 1);           // decrease speed
-				NOP();
-			}
-			if (count < countVal)
-			{
-				ccp_write_io((void*)&(OSCCALR), OSCCALR + 1);			// If count is less: increase speed
-				NOP();
-			}
-		
-			if (count == countVal) cycles = 1;
-		} while(--cycles);												// Calibrate using 32 (0x20) calibration cycles
-	
-	#else																// Binary search with or without neighbor search
-		unsigned int countDiff;
-		unsigned char neighborSearchStatus = FINISHED;
-
-		while(calibration == RUNNING){
-			count = Counter();                                          // Counter returns the count value after external ticks on XTAL
-			if (calStep != 0)
-			{
-				BinarySearch(count);									// Do binary search until stepsize is zero
-			}
-			else
-			{
-				if(neighborSearchStatus == RUNNING)
-				{
-					countDiff = ABS((signed int)count-(signed int)countVal);
-					if (countDiff < bestCountDiff)						// Store OSCCALR if higher accuracy is achieved
-					{
-						bestCountDiff = countDiff;
-						bestOSCCAL = OSCCALR;
-					}
-					NeighborSearch();									// Do neighbor search
-				}
-				else													// Prepare and start neighbor search
-				{
-					#ifdef CALIBRATION_METHOD_BINARY_WITHOUT_NEIGHBOR	// No neighbor search if deselected
-						calibration = FINISHED;
-						countDiff = ABS((signed int)count-(signed int)countVal);
-						bestCountDiff = countDiff;
-						bestOSCCAL = OSCCALR;
-					#else
-						neighborSearchStatus = RUNNING;					// Do neighbor search by default
-						neighborsSearched = 0;
-						countDiff = ABS((signed int)count-(signed int)countVal);
-						bestCountDiff = countDiff;
-						bestOSCCAL = OSCCALR;
-					#endif
-				}
-			}
-		}
-	#endif
-#endif
-
-	return 0;
+	return success_flag;
 }
 
 /*! \brief The Counter function
@@ -205,33 +148,6 @@ unsigned int Counter(void){
 	return cnt;
 }                                                               
 
-/*! \brief The binary search method
-*
-* This function uses the binary search method to find the
-* correct OSSCAL value.
-*
-*/
-void BinarySearch(unsigned int ct){
-
-	if (ct > countVal)											// Check if count is larger than desired value
-	{
-		sign = -1;												// Saves the direction
-		ccp_write_io((void*)&(OSCCALR),OSCCALR - calStep);		// Decrease OSCCALR if count is too high
-		NOP();
-	}
-	else if (ct < countVal)										// Opposite procedure for lower value
-	{
-		sign = 1;
-		ccp_write_io((void*)&(OSCCALR),OSCCALR + calStep);
-		NOP();
-	}
-	else														// Perfect match, OSCCALR stays unchanged
-	{
-		calibration = FINISHED;
-	}
-	calStep >>= 1;
-}
-
 /*! \brief The neighbor search method
 *
 * This function uses the neighbor search method to improve
@@ -243,9 +159,23 @@ void NeighborSearch(void){
 
 	neighborsSearched++;
 	if (neighborsSearched == 4)										// Finish if 3 neighbors searched
-	{
-		ccp_write_io((void*)&(OSCCALR), bestOSCCAL);
-		NOP();
+	{		
+		if (bestCountDiff < (countVal * ACCURACY_DEFAULT))
+		{
+			success_flag = 1;
+			ccp_write_io((void*)&(OSCCALR), bestOSCCAL);
+			NOP();
+		}
+		else
+		{		
+			success_flag = 0;	
+			if (OSCCALR != defaultCalibValueAtmel)
+			{					
+				ccp_write_io((void*)&(OSCCALR), defaultCalibValueAtmel);			// If count is less: increase speed
+				NOP();
+			}
+		}
+		
 		calibration = FINISHED;
 	}
 	else

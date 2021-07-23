@@ -38,7 +38,7 @@ Depends on device type, see the datasheet for suitable selection
 #define LOOP_CYCLES                       12
 
 #define ACCURACY_DEFAULT		2/100			// 2%
-#define COUNT_RETRY				10
+#define COUNT_RETRY				20
 #define INITIAL_STEP         (1 << (OSCCAL_RESOLUTION - 2))
 #define DEFAULT_OSCCAL      ((1 << (OSCCAL_RESOLUTION - 1)) | DEFAULT_OSCCAL_MASK)
 
@@ -47,6 +47,7 @@ Depends on device type, see the datasheet for suitable selection
 // Absolute value macro.
 #define ABS(var) (((var) < 0) ? -(var) : (var));
 
+void InitCalibRc(void);
 signed char CalibInternalRc(void);
 
 
