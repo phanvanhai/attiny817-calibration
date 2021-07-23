@@ -3,15 +3,15 @@ calib.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000002  00803e00  000002fa  0000038e  2**0
+  0 .data         00000002  00803e00  000002fc  00000390  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000002fa  00000000  00000000  00000094  2**1
+  1 .text         000002fc  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000008  00803e02  00803e02  00000390  2**0
+  2 .bss          00000008  00803e02  00803e02  00000392  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000390  2**0
+  3 .comment      00000030  00000000  00000000  00000392  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003c0  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003c4  2**2
                   CONTENTS, READONLY
   5 .debug_aranges 00000228  00000000  00000000  00000400  2**3
                   CONTENTS, READONLY, DEBUGGING
@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 00001f0e  00000000  00000000  00003cb5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001032  00000000  00000000  00005bc3  2**0
+  8 .debug_line   0000102e  00000000  00000000  00005bc3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002c0  00000000  00000000  00006bf8  2**2
+  9 .debug_frame  000002c0  00000000  00000000  00006bf4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00001810  00000000  00000000  00006eb8  2**0
+ 10 .debug_str    00001810  00000000  00000000  00006eb4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000002d9  00000000  00000000  000086c8  2**0
+ 11 .debug_loc    000002db  00000000  00000000  000086c4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000148  00000000  00000000  000089a1  2**0
+ 12 .debug_ranges 00000148  00000000  00000000  0000899f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,7 +72,7 @@ Disassembly of section .text:
   40:	1e e3       	ldi	r17, 0x3E	; 62
   42:	a0 e0       	ldi	r26, 0x00	; 0
   44:	be e3       	ldi	r27, 0x3E	; 62
-  46:	ea ef       	ldi	r30, 0xFA	; 250
+  46:	ec ef       	ldi	r30, 0xFC	; 252
   48:	f2 e0       	ldi	r31, 0x02	; 2
   4a:	02 c0       	rjmp	.+4      	; 0x50 <__do_copy_data+0x10>
   4c:	05 90       	lpm	r0, Z+
@@ -95,13 +95,13 @@ Disassembly of section .text:
   62:	b2 07       	cpc	r27, r18
   64:	e1 f7       	brne	.-8      	; 0x5e <.do_clear_bss_loop>
   66:	c3 d0       	rcall	.+390    	; 0x1ee <main>
-  68:	46 c1       	rjmp	.+652    	; 0x2f6 <_exit>
+  68:	47 c1       	rjmp	.+654    	; 0x2f8 <_exit>
 
 0000006a <__bad_interrupt>:
   6a:	ca cf       	rjmp	.-108    	; 0x0 <__vectors>
 
 0000006c <atmel_start_init>:
-  6c:	08 d1       	rcall	.+528    	; 0x27e <system_init>
+  6c:	09 d1       	rcall	.+530    	; 0x280 <system_init>
   6e:	08 95       	ret
 
 00000070 <Counter>:
@@ -144,7 +144,7 @@ void NeighborSearch(void){
   a4:	60 91 09 3e 	lds	r22, 0x3E09	; 0x803e09 <bestOSCCAL>
   a8:	81 e7       	ldi	r24, 0x71	; 113
   aa:	90 e0       	ldi	r25, 0x00	; 0
-  ac:	1e d1       	rcall	.+572    	; 0x2ea <ccp_write_io>
+  ac:	1f d1       	rcall	.+574    	; 0x2ec <ccp_write_io>
 		NOP();
 		calibration = FINISHED;
   ae:	81 e0       	ldi	r24, 0x01	; 1
@@ -161,7 +161,7 @@ void NeighborSearch(void){
   c4:	68 0f       	add	r22, r24
   c6:	81 e7       	ldi	r24, 0x71	; 113
   c8:	90 e0       	ldi	r25, 0x00	; 0
-  ca:	0f d1       	rcall	.+542    	; 0x2ea <ccp_write_io>
+  ca:	10 d1       	rcall	.+544    	; 0x2ec <ccp_write_io>
   cc:	08 95       	ret
 
 000000ce <CalibrateInternalRc>:
@@ -223,7 +223,7 @@ signed char CalibrateInternalRc(void){
  110:	27 95       	ror	r18
  112:	ab e7       	ldi	r26, 0x7B	; 123
  114:	b4 e1       	ldi	r27, 0x14	; 20
- 116:	dd d0       	rcall	.+442    	; 0x2d2 <__umulhisi3>
+ 116:	de d0       	rcall	.+444    	; 0x2d4 <__umulhisi3>
  118:	9c 01       	movw	r18, r24
  11a:	36 95       	lsr	r19
  11c:	27 95       	ror	r18
@@ -410,166 +410,169 @@ int main(void)
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 1f0:	83 ed       	ldi	r24, 0xD3	; 211
- 1f2:	90 e3       	ldi	r25, 0x30	; 48
- 1f4:	01 97       	sbiw	r24, 0x01	; 1
- 1f6:	f1 f7       	brne	.-4      	; 0x1f4 <main+0x6>
- 1f8:	00 c0       	rjmp	.+0      	; 0x1fa <main+0xc>
- 1fa:	00 00       	nop
-	_delay_ms(10);
-	_NOP();
- 1fc:	00 00       	nop
-	CalibInternalRc();
- 1fe:	e4 df       	rcall	.-56     	; 0x1c8 <CalibInternalRc>
-	_NOP();
+ 1f0:	2f e7       	ldi	r18, 0x7F	; 127
+ 1f2:	86 e9       	ldi	r24, 0x96	; 150
+ 1f4:	98 e9       	ldi	r25, 0x98	; 152
+ 1f6:	21 50       	subi	r18, 0x01	; 1
+ 1f8:	80 40       	sbci	r24, 0x00	; 0
+ 1fa:	90 40       	sbci	r25, 0x00	; 0
+ 1fc:	e1 f7       	brne	.-8      	; 0x1f6 <main+0x8>
+ 1fe:	00 c0       	rjmp	.+0      	; 0x200 <__DATA_REGION_LENGTH__>
  200:	00 00       	nop
- 202:	ff cf       	rjmp	.-2      	; 0x202 <__DATA_REGION_LENGTH__+0x2>
+	//CalibInternalRc();
+	//_NOP();
+	/* Replace with your application code */
+	while (1) {
+		_delay_ms(10000);
+		CalibInternalRc();
+ 202:	e2 df       	rcall	.-60     	; 0x1c8 <CalibInternalRc>
+ 204:	f5 cf       	rjmp	.-22     	; 0x1f0 <main+0x2>
 
-00000204 <BOD_init>:
- 204:	80 e0       	ldi	r24, 0x00	; 0
- 206:	08 95       	ret
+00000206 <BOD_init>:
+ 206:	80 e0       	ldi	r24, 0x00	; 0
+ 208:	08 95       	ret
 
-00000208 <CLKCTRL_init>:
- 208:	41 e0       	ldi	r20, 0x01	; 1
- 20a:	68 ed       	ldi	r22, 0xD8	; 216
- 20c:	8c e7       	ldi	r24, 0x7C	; 124
- 20e:	90 e0       	ldi	r25, 0x00	; 0
- 210:	3e d0       	rcall	.+124    	; 0x28e <protected_write_io>
- 212:	43 e0       	ldi	r20, 0x03	; 3
- 214:	68 ed       	ldi	r22, 0xD8	; 216
- 216:	81 e6       	ldi	r24, 0x61	; 97
- 218:	90 e0       	ldi	r25, 0x00	; 0
- 21a:	39 d0       	rcall	.+114    	; 0x28e <protected_write_io>
- 21c:	80 e0       	ldi	r24, 0x00	; 0
- 21e:	08 95       	ret
+0000020a <CLKCTRL_init>:
+ 20a:	41 e0       	ldi	r20, 0x01	; 1
+ 20c:	68 ed       	ldi	r22, 0xD8	; 216
+ 20e:	8c e7       	ldi	r24, 0x7C	; 124
+ 210:	90 e0       	ldi	r25, 0x00	; 0
+ 212:	3e d0       	rcall	.+124    	; 0x290 <protected_write_io>
+ 214:	43 e0       	ldi	r20, 0x03	; 3
+ 216:	68 ed       	ldi	r22, 0xD8	; 216
+ 218:	81 e6       	ldi	r24, 0x61	; 97
+ 21a:	90 e0       	ldi	r25, 0x00	; 0
+ 21c:	39 d0       	rcall	.+114    	; 0x290 <protected_write_io>
+ 21e:	80 e0       	ldi	r24, 0x00	; 0
+ 220:	08 95       	ret
 
-00000220 <CPUINT_init>:
- 220:	80 e0       	ldi	r24, 0x00	; 0
- 222:	08 95       	ret
+00000222 <CPUINT_init>:
+ 222:	80 e0       	ldi	r24, 0x00	; 0
+ 224:	08 95       	ret
 
-00000224 <mcu_init>:
- 224:	80 e0       	ldi	r24, 0x00	; 0
- 226:	08 c0       	rjmp	.+16     	; 0x238 <mcu_init+0x14>
- 228:	e8 2f       	mov	r30, r24
- 22a:	f0 e0       	ldi	r31, 0x00	; 0
- 22c:	e0 5f       	subi	r30, 0xF0	; 240
- 22e:	fb 4f       	sbci	r31, 0xFB	; 251
- 230:	90 81       	ld	r25, Z
- 232:	98 60       	ori	r25, 0x08	; 8
- 234:	90 83       	st	Z, r25
- 236:	8f 5f       	subi	r24, 0xFF	; 255
- 238:	88 30       	cpi	r24, 0x08	; 8
- 23a:	b0 f3       	brcs	.-20     	; 0x228 <mcu_init+0x4>
- 23c:	80 e0       	ldi	r24, 0x00	; 0
- 23e:	08 c0       	rjmp	.+16     	; 0x250 <mcu_init+0x2c>
- 240:	e8 2f       	mov	r30, r24
- 242:	f0 e0       	ldi	r31, 0x00	; 0
- 244:	e0 5d       	subi	r30, 0xD0	; 208
- 246:	fb 4f       	sbci	r31, 0xFB	; 251
- 248:	90 81       	ld	r25, Z
- 24a:	98 60       	ori	r25, 0x08	; 8
- 24c:	90 83       	st	Z, r25
- 24e:	8f 5f       	subi	r24, 0xFF	; 255
- 250:	88 30       	cpi	r24, 0x08	; 8
- 252:	b0 f3       	brcs	.-20     	; 0x240 <mcu_init+0x1c>
- 254:	80 e0       	ldi	r24, 0x00	; 0
- 256:	08 c0       	rjmp	.+16     	; 0x268 <mcu_init+0x44>
- 258:	e8 2f       	mov	r30, r24
- 25a:	f0 e0       	ldi	r31, 0x00	; 0
- 25c:	e0 5b       	subi	r30, 0xB0	; 176
- 25e:	fb 4f       	sbci	r31, 0xFB	; 251
- 260:	90 81       	ld	r25, Z
- 262:	98 60       	ori	r25, 0x08	; 8
- 264:	90 83       	st	Z, r25
- 266:	8f 5f       	subi	r24, 0xFF	; 255
- 268:	88 30       	cpi	r24, 0x08	; 8
- 26a:	b0 f3       	brcs	.-20     	; 0x258 <mcu_init+0x34>
- 26c:	08 95       	ret
+00000226 <mcu_init>:
+ 226:	80 e0       	ldi	r24, 0x00	; 0
+ 228:	08 c0       	rjmp	.+16     	; 0x23a <mcu_init+0x14>
+ 22a:	e8 2f       	mov	r30, r24
+ 22c:	f0 e0       	ldi	r31, 0x00	; 0
+ 22e:	e0 5f       	subi	r30, 0xF0	; 240
+ 230:	fb 4f       	sbci	r31, 0xFB	; 251
+ 232:	90 81       	ld	r25, Z
+ 234:	98 60       	ori	r25, 0x08	; 8
+ 236:	90 83       	st	Z, r25
+ 238:	8f 5f       	subi	r24, 0xFF	; 255
+ 23a:	88 30       	cpi	r24, 0x08	; 8
+ 23c:	b0 f3       	brcs	.-20     	; 0x22a <mcu_init+0x4>
+ 23e:	80 e0       	ldi	r24, 0x00	; 0
+ 240:	08 c0       	rjmp	.+16     	; 0x252 <mcu_init+0x2c>
+ 242:	e8 2f       	mov	r30, r24
+ 244:	f0 e0       	ldi	r31, 0x00	; 0
+ 246:	e0 5d       	subi	r30, 0xD0	; 208
+ 248:	fb 4f       	sbci	r31, 0xFB	; 251
+ 24a:	90 81       	ld	r25, Z
+ 24c:	98 60       	ori	r25, 0x08	; 8
+ 24e:	90 83       	st	Z, r25
+ 250:	8f 5f       	subi	r24, 0xFF	; 255
+ 252:	88 30       	cpi	r24, 0x08	; 8
+ 254:	b0 f3       	brcs	.-20     	; 0x242 <mcu_init+0x1c>
+ 256:	80 e0       	ldi	r24, 0x00	; 0
+ 258:	08 c0       	rjmp	.+16     	; 0x26a <mcu_init+0x44>
+ 25a:	e8 2f       	mov	r30, r24
+ 25c:	f0 e0       	ldi	r31, 0x00	; 0
+ 25e:	e0 5b       	subi	r30, 0xB0	; 176
+ 260:	fb 4f       	sbci	r31, 0xFB	; 251
+ 262:	90 81       	ld	r25, Z
+ 264:	98 60       	ori	r25, 0x08	; 8
+ 266:	90 83       	st	Z, r25
+ 268:	8f 5f       	subi	r24, 0xFF	; 255
+ 26a:	88 30       	cpi	r24, 0x08	; 8
+ 26c:	b0 f3       	brcs	.-20     	; 0x25a <mcu_init+0x34>
+ 26e:	08 95       	ret
 
-0000026e <PWM_0_initialization>:
- 26e:	85 b1       	in	r24, 0x05	; 5
- 270:	8d 7f       	andi	r24, 0xFD	; 253
- 272:	85 b9       	out	0x05, r24	; 5
- 274:	84 b1       	in	r24, 0x04	; 4
- 276:	82 60       	ori	r24, 0x02	; 2
- 278:	84 b9       	out	0x04, r24	; 4
- 27a:	0d d0       	rcall	.+26     	; 0x296 <PWM_0_init>
- 27c:	08 95       	ret
+00000270 <PWM_0_initialization>:
+ 270:	85 b1       	in	r24, 0x05	; 5
+ 272:	8d 7f       	andi	r24, 0xFD	; 253
+ 274:	85 b9       	out	0x05, r24	; 5
+ 276:	84 b1       	in	r24, 0x04	; 4
+ 278:	82 60       	ori	r24, 0x02	; 2
+ 27a:	84 b9       	out	0x04, r24	; 4
+ 27c:	0d d0       	rcall	.+26     	; 0x298 <PWM_0_init>
+ 27e:	08 95       	ret
 
-0000027e <system_init>:
- 27e:	d2 df       	rcall	.-92     	; 0x224 <mcu_init>
- 280:	c3 df       	rcall	.-122    	; 0x208 <CLKCTRL_init>
- 282:	19 d0       	rcall	.+50     	; 0x2b6 <RTC_0_init>
- 284:	f4 df       	rcall	.-24     	; 0x26e <PWM_0_initialization>
- 286:	cc df       	rcall	.-104    	; 0x220 <CPUINT_init>
- 288:	22 d0       	rcall	.+68     	; 0x2ce <SLPCTRL_init>
- 28a:	bc df       	rcall	.-136    	; 0x204 <BOD_init>
- 28c:	08 95       	ret
+00000280 <system_init>:
+ 280:	d2 df       	rcall	.-92     	; 0x226 <mcu_init>
+ 282:	c3 df       	rcall	.-122    	; 0x20a <CLKCTRL_init>
+ 284:	19 d0       	rcall	.+50     	; 0x2b8 <RTC_0_init>
+ 286:	f4 df       	rcall	.-24     	; 0x270 <PWM_0_initialization>
+ 288:	cc df       	rcall	.-104    	; 0x222 <CPUINT_init>
+ 28a:	22 d0       	rcall	.+68     	; 0x2d0 <SLPCTRL_init>
+ 28c:	bc df       	rcall	.-136    	; 0x206 <BOD_init>
+ 28e:	08 95       	ret
 
-0000028e <protected_write_io>:
- 28e:	fc 01       	movw	r30, r24
- 290:	64 bf       	out	0x34, r22	; 52
- 292:	40 83       	st	Z, r20
- 294:	08 95       	ret
+00000290 <protected_write_io>:
+ 290:	fc 01       	movw	r30, r24
+ 292:	64 bf       	out	0x34, r22	; 52
+ 294:	40 83       	st	Z, r20
+ 296:	08 95       	ret
 
-00000296 <PWM_0_init>:
- 296:	e0 e0       	ldi	r30, 0x00	; 0
- 298:	fa e0       	ldi	r31, 0x0A	; 10
- 29a:	84 ef       	ldi	r24, 0xF4	; 244
- 29c:	91 e0       	ldi	r25, 0x01	; 1
- 29e:	82 a7       	std	Z+42, r24	; 0x2a
- 2a0:	93 a7       	std	Z+43, r25	; 0x2b
- 2a2:	83 e2       	ldi	r24, 0x23	; 35
- 2a4:	81 83       	std	Z+1, r24	; 0x01
- 2a6:	88 ee       	ldi	r24, 0xE8	; 232
- 2a8:	93 e0       	ldi	r25, 0x03	; 3
- 2aa:	86 a3       	std	Z+38, r24	; 0x26
- 2ac:	97 a3       	std	Z+39, r25	; 0x27
- 2ae:	81 e0       	ldi	r24, 0x01	; 1
- 2b0:	80 83       	st	Z, r24
- 2b2:	80 e0       	ldi	r24, 0x00	; 0
- 2b4:	08 95       	ret
+00000298 <PWM_0_init>:
+ 298:	e0 e0       	ldi	r30, 0x00	; 0
+ 29a:	fa e0       	ldi	r31, 0x0A	; 10
+ 29c:	84 ef       	ldi	r24, 0xF4	; 244
+ 29e:	91 e0       	ldi	r25, 0x01	; 1
+ 2a0:	82 a7       	std	Z+42, r24	; 0x2a
+ 2a2:	93 a7       	std	Z+43, r25	; 0x2b
+ 2a4:	83 e2       	ldi	r24, 0x23	; 35
+ 2a6:	81 83       	std	Z+1, r24	; 0x01
+ 2a8:	88 ee       	ldi	r24, 0xE8	; 232
+ 2aa:	93 e0       	ldi	r25, 0x03	; 3
+ 2ac:	86 a3       	std	Z+38, r24	; 0x26
+ 2ae:	97 a3       	std	Z+39, r25	; 0x27
+ 2b0:	81 e0       	ldi	r24, 0x01	; 1
+ 2b2:	80 83       	st	Z, r24
+ 2b4:	80 e0       	ldi	r24, 0x00	; 0
+ 2b6:	08 95       	ret
 
-000002b6 <RTC_0_init>:
- 2b6:	80 91 41 01 	lds	r24, 0x0141	; 0x800141 <__RODATA_PM_OFFSET__+0x7f8141>
- 2ba:	81 11       	cpse	r24, r1
- 2bc:	fc cf       	rjmp	.-8      	; 0x2b6 <RTC_0_init>
- 2be:	e0 e4       	ldi	r30, 0x40	; 64
- 2c0:	f1 e0       	ldi	r31, 0x01	; 1
- 2c2:	81 e0       	ldi	r24, 0x01	; 1
- 2c4:	80 83       	st	Z, r24
- 2c6:	82 e0       	ldi	r24, 0x02	; 2
- 2c8:	87 83       	std	Z+7, r24	; 0x07
- 2ca:	80 e0       	ldi	r24, 0x00	; 0
- 2cc:	08 95       	ret
+000002b8 <RTC_0_init>:
+ 2b8:	80 91 41 01 	lds	r24, 0x0141	; 0x800141 <__RODATA_PM_OFFSET__+0x7f8141>
+ 2bc:	81 11       	cpse	r24, r1
+ 2be:	fc cf       	rjmp	.-8      	; 0x2b8 <RTC_0_init>
+ 2c0:	e0 e4       	ldi	r30, 0x40	; 64
+ 2c2:	f1 e0       	ldi	r31, 0x01	; 1
+ 2c4:	81 e0       	ldi	r24, 0x01	; 1
+ 2c6:	80 83       	st	Z, r24
+ 2c8:	82 e0       	ldi	r24, 0x02	; 2
+ 2ca:	87 83       	std	Z+7, r24	; 0x07
+ 2cc:	80 e0       	ldi	r24, 0x00	; 0
+ 2ce:	08 95       	ret
 
-000002ce <SLPCTRL_init>:
- 2ce:	80 e0       	ldi	r24, 0x00	; 0
- 2d0:	08 95       	ret
+000002d0 <SLPCTRL_init>:
+ 2d0:	80 e0       	ldi	r24, 0x00	; 0
+ 2d2:	08 95       	ret
 
-000002d2 <__umulhisi3>:
- 2d2:	a2 9f       	mul	r26, r18
- 2d4:	b0 01       	movw	r22, r0
- 2d6:	b3 9f       	mul	r27, r19
- 2d8:	c0 01       	movw	r24, r0
- 2da:	a3 9f       	mul	r26, r19
- 2dc:	01 d0       	rcall	.+2      	; 0x2e0 <__umulhisi3+0xe>
- 2de:	b2 9f       	mul	r27, r18
- 2e0:	70 0d       	add	r23, r0
- 2e2:	81 1d       	adc	r24, r1
- 2e4:	11 24       	eor	r1, r1
- 2e6:	91 1d       	adc	r25, r1
- 2e8:	08 95       	ret
+000002d4 <__umulhisi3>:
+ 2d4:	a2 9f       	mul	r26, r18
+ 2d6:	b0 01       	movw	r22, r0
+ 2d8:	b3 9f       	mul	r27, r19
+ 2da:	c0 01       	movw	r24, r0
+ 2dc:	a3 9f       	mul	r26, r19
+ 2de:	01 d0       	rcall	.+2      	; 0x2e2 <__umulhisi3+0xe>
+ 2e0:	b2 9f       	mul	r27, r18
+ 2e2:	70 0d       	add	r23, r0
+ 2e4:	81 1d       	adc	r24, r1
+ 2e6:	11 24       	eor	r1, r1
+ 2e8:	91 1d       	adc	r25, r1
+ 2ea:	08 95       	ret
 
-000002ea <ccp_write_io>:
- 2ea:	dc 01       	movw	r26, r24
- 2ec:	28 ed       	ldi	r18, 0xD8	; 216
- 2ee:	20 93 34 00 	sts	0x0034, r18	; 0x800034 <__RODATA_PM_OFFSET__+0x7f8034>
- 2f2:	6c 93       	st	X, r22
- 2f4:	08 95       	ret
+000002ec <ccp_write_io>:
+ 2ec:	dc 01       	movw	r26, r24
+ 2ee:	28 ed       	ldi	r18, 0xD8	; 216
+ 2f0:	20 93 34 00 	sts	0x0034, r18	; 0x800034 <__RODATA_PM_OFFSET__+0x7f8034>
+ 2f4:	6c 93       	st	X, r22
+ 2f6:	08 95       	ret
 
-000002f6 <_exit>:
- 2f6:	f8 94       	cli
+000002f8 <_exit>:
+ 2f8:	f8 94       	cli
 
-000002f8 <__stop_program>:
- 2f8:	ff cf       	rjmp	.-2      	; 0x2f8 <__stop_program>
+000002fa <__stop_program>:
+ 2fa:	ff cf       	rjmp	.-2      	; 0x2fa <__stop_program>
